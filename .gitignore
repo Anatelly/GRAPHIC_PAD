@@ -1,3 +1,4 @@
-*db/
-*incremental_db/
-*output_files/
+*quartus/*
+!*quartus/graphic_pad.qpf
+!*quartus/graphic_pad.qsf
+*.bak

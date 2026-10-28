@@ -7,8 +7,8 @@ entity lcd_top is
     port (
         -- Системные сигналы
         clk          : in  std_logic;
-        rst_n        : in  std_logic;
-        frame_update : out std_logic;
+        rst_n        : in  std_logic; --Сбро при 0. Рабочее состояние 1
+        -- frame_update : out std_logic;
 
         -- Интерфейс LCD
         csn      : out std_logic;
@@ -22,11 +22,6 @@ end entity lcd_top;
 architecture rtl of lcd_top is
 
     ----------------------------------------------------------------
-    -- Системный сигнал и связка display и rgb_test
-    ----------------------------------------------------------------
-    signal frame_update_int : std_logic;
-
-    ----------------------------------------------------------------
     -- Сигналы между cmd2lcd и display
     ----------------------------------------------------------------
     signal lcd_write_ack     : std_logic;
@@ -36,12 +31,13 @@ architecture rtl of lcd_top is
     ----------------------------------------------------------------
     -- Сигналы между rgb_test и display
     ----------------------------------------------------------------
-    signal frame_upd_start  : std_logic;
-    signal single_upd_start : std_logic;
+    signal frame_upd_start  : std_logic := '0';
+    signal single_upd_start : std_logic := '0';
     signal x_coordinate     : std_logic_vector(8 downto 0);
     signal y_coordinate     : std_logic_vector(8 downto 0);
     signal buf_data_valid   : std_logic;
     signal buf_data         : std_logic_vector(15 downto 0);
+    signal frame_update     : std_logic;
 
     ----------------------------------------------------------------
     -- Сигналы управления display
@@ -87,22 +83,41 @@ architecture rtl of lcd_top is
         );
     end component;
 
-    component rgb_test is
+    -- component rgb_test is
+    --     port (
+    --         clk              : in  std_logic;
+    --         rst_n            : in  std_logic;
+    --         trigger_33ms     : in  std_logic;
+
+    --         frame_upd_start  : out std_logic;
+    --         -- single_upd_start : out std_logic;
+    --         -- x_coordinate     : out std_logic_vector(8 downto 0);
+    --         -- y_coordinate     : out std_logic_vector(8 downto 0);
+    --         write_enb        : out std_logic;
+    --         data_buff        : out std_logic_vector(15 downto 0);
+
+    --         frame_end        : in  std_logic;
+    --         sleep_off        : in  std_logic;
+    --         write_enb_ack    : in  std_logic
+    --     );
+    -- end component;
+
+    component rgb_test_simple is
         port (
             clk              : in  std_logic;
             rst_n            : in  std_logic;
-            trigger_33ms     : in  std_logic;
 
             frame_upd_start  : out std_logic;
-            -- single_upd_start : out std_logic;
-            -- x_coordinate     : out std_logic_vector(8 downto 0);
-            -- y_coordinate     : out std_logic_vector(8 downto 0);
-            write_enb        : out std_logic;
+            single_upd_start : out std_logic;
+            x_coordinate     : out std_logic_vector(8 downto 0);
+            y_coordinate     : out std_logic_vector(8 downto 0);
+
+            data_buf_valid   : out std_logic;
             data_buff        : out std_logic_vector(15 downto 0);
 
-            frame_end        : in  std_logic;
+            frame_update     : in  std_logic;
             sleep_off        : in  std_logic;
-            write_enb_ack    : in  std_logic
+            data_bvld_ack    : in  std_logic
         );
     end component;
 
@@ -145,8 +160,6 @@ architecture rtl of lcd_top is
     end component;
 
 begin
-    --связка системного выхода и сигнала
-    frame_update <= frame_update_int;
     ----------------------------------------------------------------
     -- Управление физическим интерфейсом LCD
     ----------------------------------------------------------------
@@ -172,25 +185,45 @@ begin
             data_lcd         => data_lcd
         );
 
+    -- ----------------------------------------------------------------
+    -- -- Формирование данных изображения
+    -- ----------------------------------------------------------------
+    -- rgb_test_u : rgb_test
+    --     port map (
+    --         clk              => clk,
+    --         rst_n            => rst_n,
+    --         trigger_33ms     => trigger_33ms,
+
+    --         frame_upd_start  => frame_upd_start,
+    --         -- single_upd_start => single_upd_start,
+    --         -- x_coordinate     => x_coordinate,
+    --         -- y_coordinate     => y_coordinate,
+    --         write_enb        => buf_data_valid,
+    --         data_buff        => buf_data,
+
+    --         frame_end        => frame_update_int,
+    --         sleep_off        => sleep_off,
+    --         write_enb_ack    => buf_data_ack
+ --     );
+
     ----------------------------------------------------------------
     -- Формирование данных изображения
     ----------------------------------------------------------------
-    rgb_test_u : rgb_test
+    rgb_test_simple_u : rgb_test_simple
         port map (
             clk              => clk,
             rst_n            => rst_n,
-            trigger_33ms     => trigger_33ms,
 
             frame_upd_start  => frame_upd_start,
-            -- single_upd_start => single_upd_start,
-            -- x_coordinate     => x_coordinate,
-            -- y_coordinate     => y_coordinate,
-            write_enb        => buf_data_valid,
+            single_upd_start => single_upd_start,
+            x_coordinate     => x_coordinate,
+            y_coordinate     => y_coordinate,
+            data_buf_valid   => buf_data_valid,
             data_buff        => buf_data,
 
-            frame_end        => frame_update_int,
+            frame_update     => frame_update,
             sleep_off        => sleep_off,
-            write_enb_ack    => buf_data_ack
+            data_bvld_ack    => buf_data_ack
         );
 
     ----------------------------------------------------------------
@@ -198,7 +231,7 @@ begin
     ----------------------------------------------------------------
     display_u : display
         port map (
-            frame_update     => frame_update_int,
+            frame_update     => frame_update,
 
             clk              => clk,
             rst_n            => rst_n,

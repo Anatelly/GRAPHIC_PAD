@@ -2,21 +2,29 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+-- Модуль передатчика PS/2 (Хост -> Устройство).
+-- Используется для отправки команд управления (например, включения мыши x"F4").
+
 entity PS_2_tx is
 	port(
 		clk : in std_logic;
 		reset : in std_logic;
-		wr_ps2 : in std_logic;
-		din : in std_logic_vector (7 downto 0);
-		ps2d : inout std_logic;
-		ps2c : inout std_logic;
-		tx_idle : out std_logic;
-		tx_done_tick : out std_logic
+		wr_ps2 : in std_logic; -- Импульс записи (команда на начало передачи байта)
+		din : in std_logic_vector(7 downto 0); -- Восемь бит отправляемых данных
+		ps2d : inout std_logic; -- Двунаправленная линия данных PS/2
+		ps2c : inout std_logic; -- Двунаправленная линия тактовых импульсов PS/2
+		tx_idle : out std_logic; -- Флаг готовности: '1' означает, что передатчик свободен
+		tx_done_tick : out std_logic -- Генерация строба (импульса) по окончании успешной передачи
 	);
 end entity;
 
 architecture rtl of PS_2_tx is
 
+-- idle  : ожидание команды на отправку
+-- rts   : запрос на отправку (Request to Send) — хост принудительно прижимает линию тактов к нулю
+-- start : передача стартового бита (прижатие линии данных к нулю)
+-- data  : последовательная передача 8 бит данных и 1 бита четности
+-- stop  : прием стоп-бита от устройства и ожидание импульса подтверждения (ACK)
 type state_type is (idle, rts, start, data, stop);
 signal state_reg, state_next : state_type;
 
@@ -24,14 +32,14 @@ signal filter_reg : std_logic_vector(7 downto 0);
 signal filter_next : std_logic_vector(7 downto 0);
 signal f_ps2c_reg : std_logic;
 signal f_ps2c_next : std_logic;
-signal n_reg : std_logic_vector(3 downto 0);
-signal n_next : std_logic_vector(3 downto 0);
-signal b_reg : std_logic_vector(8 downto 0);
-signal b_next : std_logic_vector(8 downto 0);
-signal c_reg : std_logic_vector(12 downto 0);
-signal c_next : std_logic_vector(12 downto 0);
+signal n_reg : std_logic_vector(3 downto 0); -- Счетчик переданных бит (всего 8 бит данных + 1 бит четности)
+signal n_next : std_logic_vector(3 downto 0); --
+signal b_reg : std_logic_vector(8 downto 0); -- Сдвиговый регистр для передачи бит в линию
+signal b_next : std_logic_vector(8 downto 0); -- 
+signal c_reg : std_logic_vector(12 downto 0); -- Счетчик задержки (таймер) для удержания линии тактов в состоянии RTS
+signal c_next : std_logic_vector(12 downto 0); --
 signal par : std_logic;
-signal fall_edge : std_logic;
+signal fall_edge : std_logic; -- Импульс, фиксирующий спадающий фронт линии тактов мыши
 signal ps2c_out : std_logic;
 signal ps2d_out : std_logic;
 signal tri_c : std_logic;
@@ -41,7 +49,7 @@ begin
 
 	process(clk, reset)
 	begin
-		if reset = '1' then
+		if reset = '0' then
 			filter_reg <= (others => '0');
 			f_ps2c_reg <= '0';
 		elsif rising_edge(clk) then
@@ -58,7 +66,7 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 
 	process(clk, reset)
 	begin
-		if reset = '1' then
+		if reset = '0' then
 			state_reg <= idle;
 			c_reg <= (others => '0');
 			n_reg <= (others => '0');
@@ -71,9 +79,16 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 		end if;
 	end process;
 	
+	
+	-- Генерация бита нечетного паритета (Odd Parity). 
+	-- Согласно стандарту PS/2, общее число единиц в байте данных и бите паритета должно быть нечетным.
 par <= not(din(0) xor din(1) xor din(2) xor din(3) xor din(4) xor din(5) xor din(6) xor din(7));
 
-	process(state_reg, c_reg, n_reg, b_reg, wr_ps2, din, par, fall_edge)
+
+------------------------------------------------------------------
+	-- КОНЕЧНЫЙ АВТОМАТ УПРАВЛЕНИЯ ПЕРЕДАЧЕЙ (FSM)
+------------------------------------------------------------------
+	process(all)
 	begin
 		state_next <= state_reg;
 		c_next <= c_reg;
@@ -97,13 +112,13 @@ par <= not(din(0) xor din(1) xor din(2) xor din(3) xor din(4) xor din(5) xor din
 					
 					when rts =>
 						ps2c_out <= '0';
-						tri_d <= '1';
-						if fall_edge = '1' then
+						tri_c <= '1';
+--						if fall_edge = '1' then
 							c_next <= std_logic_vector(unsigned(c_reg) - 1);
-							if c_reg = "0000" then
+							if c_reg = "0000000000000" then
 								state_next <= start;
 							end if;
-						end if;
+--						end if;
 						
 					when start =>
 						ps2d_out <= '0';
@@ -119,9 +134,9 @@ par <= not(din(0) xor din(1) xor din(2) xor din(3) xor din(4) xor din(5) xor din
 						if fall_edge = '1' then
 							b_next <= '0' & b_reg(8 downto 1);
 							if n_reg = "0000" then
-								state_next <= start;
+								state_next <= stop;
 							else
-								n_next <= std_logic_vector(unsigned(n_reg) - 1);
+								n_next <= std_logic_vector((unsigned(n_reg)) - 1);
 							end if;
 						end if;
 						

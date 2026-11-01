@@ -2,6 +2,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+-- Модуль приемника PS/2 (Устройство -> Хост).
+-- Используется для последовательного приема кадров данных от мыши или клавиатуры.
+
 entity PS_2_rx is
 	port(
 		clk : in std_logic;
@@ -16,7 +19,11 @@ end entity;
 
 architecture rtl of PS_2_rx is
 
-type state_type is (idle, rts, start, data, stop);
+-- idle : ожидание стартового бита (прижатия линии данных к нулю)
+-- dps  : последовательный прием бит (Data, Parity, Stop)
+-- load : завершение приема и выдача готового байта в систему
+
+type state_type is (idle, dps, load);
 signal state_reg, state_next : state_type;
 
 signal filter_reg : std_logic_vector(7 downto 0);
@@ -33,7 +40,7 @@ begin
 
 	process(clk, reset)
 	begin
-		if reset = '1' then
+		if reset = '0' then
 			filter_reg <= (others => '0');
 			f_ps2c_reg <= '0';
 		elsif rising_edge(clk) then
@@ -50,7 +57,7 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 
 	process(clk, reset)
 	begin
-		if reset = '1' then
+		if reset = '0' then
 			state_reg <= idle;
 			n_reg <= (others => '0');
 			b_reg <= (others => '0');
@@ -60,8 +67,12 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 			b_reg <= b_next;
 		end if;
 	end process;
+
+------------------------------------------------------------------
+	-- КОНЕЧНЫЙ АВТОМАТ ПРИЕМА КАДРА PS/2 (FSM)
+------------------------------------------------------------------
 	
-	process(state_reg, n_reg, b_reg, rx_en, fall_edge, ps2d)
+	process(all)
 	begin
 		state_next <= state_reg;
 		rx_done_tick <= '0';
@@ -73,24 +84,22 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 						if fall_edge = '1' and rx_en = '1' then
 							b_next <= ps2d & b_reg(10 downto 1);
 							N_next <= "1001";
-							state_next <= start;
+							state_next <= dps;
 						end if;
 					
-					when start =>
+					when dps =>
 						if fall_edge = '1' then
 							b_next <= ps2d & b_reg(10 downto 1);
 							if n_reg = "0000" then
-								state_next <= stop;
+								state_next <= load;
 							else
-								n_next <= std_logic_vector(unsigned(n_reg) - 1);
+								n_next <= std_logic_vector((unsigned(n_reg)) - 1);
 							end if;
 						end if;
 						
-					when stop =>
-						if fall_edge = '1' then
+					when load =>
 							state_next <= idle;
 							rx_done_tick <= '1';
-						end if;
 						
 					when others =>
 						state_next <= idle;

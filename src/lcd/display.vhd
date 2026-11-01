@@ -26,6 +26,8 @@ entity display is
         trigger_33ms     : in  std_logic;
         -- Флаг события обновления кадра для внешней логики.
         frame_update     : out std_logic;
+        -- Флаг события успешного окончания инициализации дисплея.
+        initial_done     : out std_logic;
 
         -- Сигнал, сообщающий внешней логике об активном дисплее.
         -- 1 - дисплей активен, 0 - не активен
@@ -145,14 +147,10 @@ architecture rtl of display is
 
     -- Счётчик периодических интервалов при инициализации/ожидании.
     signal frame_cnt       : unsigned(7 downto 0) := (others => '0');
-    -- Вспомогательный счётчик задержки/времени в состоянии ожидания.
-    signal common_cnt      : unsigned(15 downto 0) := (others => '0');
     -- Внутренний флаг запуска отображения.
     -- signal disp_start      : std_logic := '0';
     -- Флаг разрешения работы дисплея после инициализации.
     signal display_enb     : std_logic := '0';
-    -- Флаг этапа начальной инициализации.
-    signal initial_enb     : std_logic := '0';
     -- Зафиксированный запрос обновления полного кадра.
     signal frame_upd_keep  : std_logic := '0';
     -- Зафиксированный запрос одиночного обновления.
@@ -186,23 +184,6 @@ architecture rtl of display is
     -- Флаг выбора синей тестовой полосы.
     signal blue_bg         : std_logic := '0';
 
-    -- -- Внутренний флаг валидности слова данных для LCD.
-    -- signal data_wr_valid_i : std_logic := '0';
-    -- -- Внутреннее 16-битное слово для записи в LCD.
-    -- signal data_wr_i       : std_logic_vector(15 downto 0) := (others => '0');
-    -- -- Внутренний флаг валидности команды LCD.
-    -- signal cmd_valid_i     : std_logic := '0';
-    -- -- Внутренний код команды LCD.
-    -- signal cmd_i           : std_logic_vector(7 downto 0) := (others => '0');
-    -- -- Внутреннее значение количества циклов команды.
-    -- signal cmd_cycle_i     : std_logic_vector(15 downto 0) := (others => '0');
-    -- -- Внутреннее подтверждение приёма данных буфера.
-    -- signal data_bvld_ack_i : std_logic := '0';
-    -- -- Внутренний сигнал отключения режима сна.
-    -- signal sleep_off_i     : std_logic := '0';
-    -- -- Внутренний флаг события обновления кадра.
-    -- signal frame_update_i  : std_logic := '0';
-
     -- Формирование байта LUT для 128 записей:
     -- R0..R15 и B0..B15 имеют шаг 2; R16..R31 и B16..B31
     -- продолжаются значениями 33..63. Зелёный канал 0..63.
@@ -231,16 +212,6 @@ architecture rtl of display is
     end function;
 
 begin
-    -- -- Выходные порты подключены к внутренним сигналам.
-    -- cmd_valid       <= cmd_valid_i;
-    -- cmd             <= cmd_i;
-    -- cmd_cycle       <= cmd_cycle_i;
-    -- data_wr_valid   <= data_wr_valid_i;
-    -- data_wr         <= data_wr_i;
-    -- data_bvld_ack   <= data_bvld_ack_i;
-    -- sleep_off       <= sleep_off_i;
-    -- frame_update    <= frame_update_i;
-
     ---------------------------------------------------------------------------
     -- Функциональные регистры PCD: запросы обновления, таймер и координаты.
     ---------------------------------------------------------------------------
@@ -250,8 +221,7 @@ begin
             frame_upd_keep  <= '0';
             single_upd_keep <= '0';
             display_enb     <= '0';
-            initial_enb     <= '0';
-            common_cnt      <= (others => '0');
+            initial_done     <= '0';
             frame_cnt       <= (others => '0');
             -- disp_start      <= '0';
             sc_addr         <= (others => '0');
@@ -281,15 +251,9 @@ begin
             end if;
 
             if pcd_sta = PCD_IDLE then
-                initial_enb <= '1';
+                initial_done <= '0';
             elsif pcd_sta = PCD_DISP_IDLE then
-                initial_enb <= '0';
-            end if;
-
-            if pcd_sta = PCD_IDLE then
-                common_cnt <= common_cnt + 1;
-            else
-                common_cnt <= (others => '0');
+                initial_done <= '1'; --завершение инициализации дисплея
             end if;
 
             case pcd_sta is
@@ -300,8 +264,6 @@ begin
                 when others =>
                     frame_cnt <= (others => '0');
             end case;
-
-            -- disp_start <= trigger_33ms;
 
             if single_upd_start = '1' or single_upd_keep = '1' then
                 sc_addr <= resize(unsigned(x_coordinate), 16);
@@ -323,17 +285,6 @@ begin
 
             ep_addr <= sp_addr;
 
-            -- if pcd_sta = PCD_IDLE then
-            --     rgbset_finish <= '0';
-            -- elsif (pcd_sta = PCD_RGBSET) and (dpy_cmd_finish = '1') then
-            --     rgbset_finish <= '1';
-            -- end if;
-
-            -- if pcd_sta = PCD_IDLE then
-            --     dispon_finish <= '0';
-            -- elsif (pcd_sta = PCD_WAIT_DELAY) and (frame_cnt = to_unsigned(3, 8)) then
-            --     dispon_finish <= '1';
-            -- end if;
         end if;
     end process;
 
@@ -353,7 +304,7 @@ begin
             when CMD_PIXSET =>
                 v_cycle := to_unsigned(2, 16);
                 v_enb   := "00000001";
-                v_par(1):= x"0055";
+                v_par(1):= x"0055"; --16 бит на пиксель
             when CMD_SLPOUT =>
                 v_cycle := to_unsigned(1, 16);
             when CMD_DISPON =>
@@ -375,6 +326,8 @@ begin
             when CMD_RAMWR =>
                 if single_upd_start = '1' or single_upd_keep = '1' then
                     v_cycle := to_unsigned(2, 16);
+                else
+                    v_cycle := to_unsigned(241, 16);
                 end if;
             when CMD_RGBSET =>
                 v_cycle := to_unsigned(129, 16);
@@ -564,7 +517,8 @@ begin
             if lut_read_enb = '1' then
                 lut_data_valid <= '1';
                 lut_data_buf <= lut_value(lut_addr_rd);
-            elsif data_wr_valid = '0' and lut_data_valid = '1' then
+
+            elsif wrphase_finish = '1' and lut_data_valid = '1' then
                 lut_data_valid <= '0';
             end if;
         end if;
@@ -632,14 +586,10 @@ begin
                     dpy_nxt <= DPY_READ_BUFF; 
                 end if;
             when DPY_CHK_BUFNUMB =>
-                if cmd_cnt = cmd_cycle_end or cmd_cnt = to_unsigned(241,16) then
-                    if wrphase_finish = '1' then
-                        dpy_nxt <= DPY_NOP;
-                    else
-                        dpy_nxt <= DPY_CHK_BUFNUMB; 
-                    end if;
-                else 
-                    dpy_nxt <= DPY_READ_BUFF; 
+                if cmd_cnt = cmd_cycle_end then
+                    dpy_nxt <= DPY_WAIT_FINISH;
+                else
+                    dpy_nxt <= DPY_READ_BUFF;
                 end if;
             when DPY_NOP => 
                 dpy_nxt <= DPY_WAIT_FINISH;
@@ -682,7 +632,7 @@ begin
         end if;
     end process;
 
-    process(pcd_sta, display_enb, initial_enb, dpy_cmd_finish,
+    process(pcd_sta, display_enb, initial_done, dpy_cmd_finish,
             frame_cnt, frame_upd_start, single_upd_start,
             frame_upd_keep, single_upd_keep, sp_addr)
     begin
@@ -690,7 +640,7 @@ begin
         case pcd_sta is
             when PCD_IDLE =>
                 if display_enb = '1' then
-                    if initial_enb = '1' then
+                    if initial_done = '0' then
                         pcd_nxt <= PCD_PIXSET;
                     else 
                         pcd_nxt <= PCD_DISP_IDLE; 
@@ -812,11 +762,7 @@ begin
             end if;
 
             if dpy_sta = DPY_CMD_START then
-                if cmd_reg = CMD_RAMWR then 
-                    cmd_cycle <= (others => '0');
-                else 
-                    cmd_cycle <= std_logic_vector(cmd_cycle_reg); 
-                end if;
+                cmd_cycle <= std_logic_vector(cmd_cycle_reg); 
             elsif dpy_sta = DPY_NOP then
                 cmd_cycle <= std_logic_vector(to_unsigned(1,16));
             end if;

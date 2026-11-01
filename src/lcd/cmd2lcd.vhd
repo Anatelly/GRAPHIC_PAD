@@ -548,10 +548,14 @@ begin
     -- 12. Формирование подтверждения записи ack_wr
     -- ========================================================
 
+    -- ack_wr <= '1'
+    --     when (state = C2L_WRITE_DATA) and
+    --          (low_cnt = to_unsigned(W_LOW_END, low_cnt'length)) and
+    --          (wrn = '0')
+    --     else '0';
     ack_wr <= '1'
         when (state = C2L_WRITE_DATA) and
-             (low_cnt = to_unsigned(W_LOW_END, low_cnt'length)) and
-             (wrn = '0')
+            (write_finish = '1')
         else '0';
 
     -- ack_wr становится активным, когда:

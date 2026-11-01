@@ -8,7 +8,7 @@ end entity timer_tb;
 architecture tb of timer_tb is
 
     -- Параметры тестирования
-    constant CLOCK_FREQ : natural := 100e3;
+    constant CLOCK_FREQ : natural := 50e6;
     constant CLK_PERIOD : time := 1 sec / CLOCK_FREQ;
 
     -- Порты

@@ -6,14 +6,13 @@ entity mouse is
 	port(
 		clk : in std_logic;
 		reset : in std_logic;
-		ps2d : inout std_logic;
-		ps2c : inout std_logic;
-		xm : out std_logic_vector(7 downto 0);
-		ym : out std_logic_vector(8 downto 0);
+		ps2d : inout std_logic; -- Тактовые импульсы на мышь
+		ps2c : inout std_logic; -- Линия данных на мышь
+		xm : out std_logic_vector(8 downto 0); -- Положение курсора мыши X
+		ym : out std_logic_vector(8 downto 0); -- Положение курсора мыши Y
 		data_update   : out std_logic; -- Строб обновления данных
-		--Вывод информации о нажатых клавишах
-		left_button   : out std_logic;
-		right_button  : out std_logic
+		left_button   : out std_logic; --Вывод информации о нажатии левой кнопки мыши
+		right_button  : out std_logic --Вывод информации о нажатии правой кнопки мыши
 	);
 end entity; 
 
@@ -70,7 +69,7 @@ change_x <= to_integer(signed(rx_data)) - 256 when x_sign = '1' else to_integer(
 change_y <= to_integer(signed(rx_data)) - 256 when y_sign = '1' else to_integer(unsigned(rx_data));
 
 new_x <= x_reg + change_x;
-new_y <= x_reg + change_y;
+new_y <= y_reg + change_y;
 
 -----------------------------------------------------------------
     -- Регистры состояний и данных FSMD (Синхронный блок)
@@ -116,7 +115,7 @@ new_y <= x_reg + change_y;
 					wr_ps2 <= '1';
 					state_next <= init2;
 					
-				when init2 => -- Ожидание завершения отправки
+				when init2 =>
 					if rx_done_tick = '1' then
 						state_next <= init3;
 					end if;
@@ -184,7 +183,7 @@ new_y <= x_reg + change_y;
     -- Назначение выходных сигналов
 -----------------------------------------------------------------
 	
-xm <= std_logic_vector(to_unsigned(x_reg, 8));
+xm <= std_logic_vector(to_unsigned(x_reg, 9));
 ym <= std_logic_vector(to_unsigned(y_reg, 9));
 data_update <= update_tick;
 

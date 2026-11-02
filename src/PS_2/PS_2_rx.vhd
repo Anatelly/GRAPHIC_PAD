@@ -34,7 +34,7 @@ signal n_reg : std_logic_vector(3 downto 0);
 signal n_next : std_logic_vector(3 downto 0);
 signal b_reg : std_logic_vector(10 downto 0);
 signal b_next : std_logic_vector(10 downto 0);
-signal fall_edge : std_logic;
+signal fall_edge : std_logic; -- Импульс, фиксирующий спадающий фронт линии тактов мыши
 
 begin
 
@@ -83,7 +83,7 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 					when idle =>
 						if fall_edge = '1' and rx_en = '1' then
 							b_next <= ps2d & b_reg(10 downto 1);
-							N_next <= "1001";
+							n_next <= "1001";
 							state_next <= dps;
 						end if;
 					

@@ -36,7 +36,7 @@ signal n_reg : std_logic_vector(3 downto 0); -- Счетчик переданн�
 signal n_next : std_logic_vector(3 downto 0); --
 signal b_reg : std_logic_vector(8 downto 0); -- Сдвиговый регистр для передачи бит в линию
 signal b_next : std_logic_vector(8 downto 0); -- 
-signal c_reg : std_logic_vector(12 downto 0); -- Счетчик задержки (таймер) для удержания линии тактов в состоянии RTS
+signal c_reg : std_logic_vector(12 downto 0); -- Счетчик задержки (таймер) для удержания линии тактов в состоянии rts
 signal c_next : std_logic_vector(12 downto 0); --
 signal par : std_logic;
 signal fall_edge : std_logic; -- Импульс, фиксирующий спадающий фронт линии тактов мыши
@@ -80,7 +80,7 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 	end process;
 	
 	
-	-- Генерация бита нечетного паритета (Odd Parity). 
+	-- Генерация бита четности (Odd Parity). 
 	-- Согласно стандарту PS/2, общее число единиц в байте данных и бите паритета должно быть нечетным.
 par <= not(din(0) xor din(1) xor din(2) xor din(3) xor din(4) xor din(5) xor din(6) xor din(7));
 

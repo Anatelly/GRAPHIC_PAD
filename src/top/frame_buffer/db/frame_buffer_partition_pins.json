@@ -1,0 +1,237 @@
+{
+	"partitions" : [
+		{
+			"name" : "Top",
+			"pins" : [
+				{
+					"name" : "rd_data[0]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[1]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[2]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[3]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[4]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[5]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[6]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[7]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[8]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[9]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[10]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[11]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[12]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[13]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[14]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_data[15]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_valid",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[16]",
+					"strict" : false
+				},
+				{
+					"name" : "clk",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[15]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[14]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[0]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[1]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[2]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[3]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[4]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[5]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[6]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[7]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[8]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[9]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[10]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[11]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[12]",
+					"strict" : false
+				},
+				{
+					"name" : "rd_addr[13]",
+					"strict" : false
+				},
+				{
+					"name" : "frame_update",
+					"strict" : false
+				},
+				{
+					"name" : "rst_n",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_btnm[0]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_tick",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_ym[8]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_ym[7]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_ym[6]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_ym[5]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_ym[4]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_ym[3]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_ym[2]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_ym[1]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_ym[0]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_xm[8]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_xm[7]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_xm[6]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_xm[5]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_xm[4]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_xm[3]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_xm[2]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_xm[1]",
+					"strict" : false
+				},
+				{
+					"name" : "mouse_xm[0]",
+					"strict" : false
+				}
+			]
+		}
+	]
+}

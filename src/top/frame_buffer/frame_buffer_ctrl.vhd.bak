@@ -1,0 +1,33 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity frame_buffer_ctrl is
+    port (
+        clk:in  std_logic;                     
+        reset:in std_logic;
+		  
+        xm:in std_logic_vector(8 downto 0);  
+        ym:in std_logic_vector(8 downto 0);  
+        btnm:in std_logic_vector(2 downto 0);  
+        m_done_tick:in  std_logic;
+		  
+        brush_color:in std_logic_vector(15 downto 0);
+		  
+        wr_en:out std_logic;                     
+        wr_addr:out std_logic_vector(16 downto 0); 
+        wr_data:out std_logic_vector(15 downto 0)  
+    );
+end entity;
+
+architecture rtl of frame_buffer_ctrl is
+    signal x_pos:integer:=120;
+	 signal y_pos:integer:=160;
+	 
+	 signal clear_cnt : integer := 0;
+	 signal clearing : std_logic := '0';
+begin
+    
+    
+
+end architecture rtl;

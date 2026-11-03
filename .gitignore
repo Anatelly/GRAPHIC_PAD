@@ -1,5 +1,6 @@
 *quartus/db
 *quartus/incremental_db
 *quartus/output_files
+*quartus/.qsys_edit
 *.bak
 work*

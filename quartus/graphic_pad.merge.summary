@@ -1,14 +1,14 @@
-Partition Merge Status : Successful - Tue Oct 27 12:28:30 2026
+Partition Merge Status : Successful - Tue Nov 03 13:15:42 2026
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : graphic_pad
-Top-level Entity Name : lcd_top
+Top-level Entity Name : graphic_pad
 Family : Cyclone IV E
-Total logic elements : 992
-    Total combinational functions : 843
-    Dedicated logic registers : 654
-Total registers : 654
+Total logic elements : 1,242
+    Total combinational functions : 682
+    Dedicated logic registers : 960
+Total registers : 960
 Total pins : 22
 Total virtual pins : 0
-Total memory bits : 128
+Total memory bits : 61,440
 Embedded Multiplier 9-bit elements : 0
 Total PLLs : 1

@@ -14,7 +14,9 @@ entity lcd_top is
         data_cmdn : out std_logic;
         wrn      : out std_logic;
         rdn      : out std_logic;
-        data_lcd : inout std_logic_vector(15 downto 0)
+        data_lcd : inout std_logic_vector(15 downto 0);
+        lcd_on      : out std_logic;
+        lcd_reset   : out std_logic
     );
 end entity lcd_top;
 
@@ -56,6 +58,31 @@ architecture rtl of lcd_top is
     signal trigger_33ms : std_logic;
 
     ----------------------------------------------------------------
+    -- Сигнал модуля чтения
+    ----------------------------------------------------------------  
+    -- signal ledr : std_logic_vector(15 downto 0);
+    -- signal test_done : std_logic;
+
+    -- component cmdlcd_read is
+    --     port (
+    --         clk             : in  std_logic;
+    --         rst_n           : in  std_logic;
+
+    --         ledr            : out std_logic_vector(15 downto 0);
+    --         test_done       : out std_logic;
+
+    --         csn             : out std_logic;
+    --         data_cmdn       : out std_logic;
+    --         wrn             : out std_logic;
+    --         rdn             : out std_logic;
+    --         data_lcd        : inout std_logic_vector(15 downto 0);
+    --         lcd_on          : out std_logic;
+    --         lcd_reset       : out std_logic
+
+    --     );
+    -- end component;
+
+    ----------------------------------------------------------------
     -- Объявления компонентов
     ----------------------------------------------------------------
     component cmd2lcd is
@@ -77,7 +104,9 @@ architecture rtl of lcd_top is
             data_cmdn       : out std_logic;
             wrn             : out std_logic;
             rdn             : out std_logic;
-            data_lcd        : inout std_logic_vector(15 downto 0)
+            data_lcd        : inout std_logic_vector(15 downto 0);
+            lcd_on          : out std_logic;
+            lcd_reset       : out std_logic
         );
     end component;
 
@@ -140,6 +169,26 @@ architecture rtl of lcd_top is
     end component;
 
 begin
+    -- ----------------------------------------------------------------
+    -- -- Управление тестовым модулем чтения
+    -- ----------------------------------------------------------------
+    -- cmdlcd_read_u : cmdlcd_read
+    --     port map (
+    --         clk              => clk,
+    --         rst_n            => rst_n,
+
+    --         ledr             => ledr,
+    --         test_done        => test_done,
+
+    --         csn              => csn,
+    --         data_cmdn        => data_cmdn,
+    --         wrn              => wrn,
+    --         rdn              => rdn,
+    --         data_lcd         => data_lcd,
+    --         lcd_on           => lcd_on,
+    --         lcd_reset        => lcd_reset
+    --     );
+
     ----------------------------------------------------------------
     -- Управление физическим интерфейсом LCD
     ----------------------------------------------------------------
@@ -162,7 +211,9 @@ begin
             data_cmdn        => data_cmdn,
             wrn              => wrn,
             rdn              => rdn,
-            data_lcd         => data_lcd
+            data_lcd         => data_lcd,
+				lcd_on           => lcd_on,
+				lcd_reset        => lcd_reset
         );
 
     ----------------------------------------------------------------

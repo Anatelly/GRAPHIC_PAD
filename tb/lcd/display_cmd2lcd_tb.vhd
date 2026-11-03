@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity display_cmd2lcd_tb is
     generic (
         TEST_MODE  : integer := 1; --выбор теста
-        TEST_TIMER : integer := 1  --использовать таймер 33мс или ускоренную имитацию
+        TEST_TIMER : integer := 0  --использовать таймер 33мс или ускоренную имитацию
     );
 end entity display_cmd2lcd_tb;
 
@@ -245,7 +245,7 @@ begin
                 frame_upd_start_tb <= '1';
                 wait until falling_edge(clk_tb);
                 frame_upd_start_tb <= '0';
-                wait for CLK_PERIOD*10;
+                -- wait for CLK_PERIOD*10;
                 report "TB2: full-frame update started" severity note;
 
                 -- Передача красных пикселей RGB565: x"F800"

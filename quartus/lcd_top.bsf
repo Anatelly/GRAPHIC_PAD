@@ -20,9 +20,9 @@ refer to the applicable agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 192 160)
+	(rect 16 16 192 192)
 	(text "lcd_top" (rect 5 0 33 12)(font "Arial" ))
-	(text "inst" (rect 8 128 20 140)(font "Arial" ))
+	(text "inst" (rect 8 160 20 172)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -66,6 +66,20 @@ refer to the applicable agreement for further details.
 		(line (pt 176 80)(pt 160 80)(line_width 1))
 	)
 	(port
+		(pt 176 112)
+		(output)
+		(text "lcd_on" (rect 0 0 25 12)(font "Arial" ))
+		(text "lcd_on" (rect 130 107 155 119)(font "Arial" ))
+		(line (pt 176 112)(pt 160 112)(line_width 1))
+	)
+	(port
+		(pt 176 128)
+		(output)
+		(text "lcd_reset" (rect 0 0 36 12)(font "Arial" ))
+		(text "lcd_reset" (rect 119 123 155 135)(font "Arial" ))
+		(line (pt 176 128)(pt 160 128)(line_width 1))
+	)
+	(port
 		(pt 176 96)
 		(bidir)
 		(text "data_lcd[15..0]" (rect 0 0 56 12)(font "Arial" ))
@@ -73,6 +87,6 @@ refer to the applicable agreement for further details.
 		(line (pt 176 96)(pt 160 96)(line_width 3))
 	)
 	(drawing
-		(rectangle (rect 16 16 160 128)(line_width 1))
+		(rectangle (rect 16 16 160 160)(line_width 1))
 	)
 )

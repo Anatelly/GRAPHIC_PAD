@@ -118,11 +118,14 @@ entity cmd2lcd is
         -- ----------------------------------------------------
         -- Двунаправленная шина LCD
         -- ----------------------------------------------------
-        data_lcd : inout std_logic_vector(15 downto 0)
+        data_lcd : inout std_logic_vector(15 downto 0);
         -- 16-битная шина данных дисплея.
         -- Во время записи модуль управляет шиной.
         -- В режиме отключенного выходного драйвера шина
         -- переводится в высокоимпедансное состояние 'Z'.
+
+        lcd_on    : out std_logic;
+        lcd_reset : out std_logic
     );
 end entity cmd2lcd;
 
@@ -223,7 +226,7 @@ begin
     -- тристейт-драйверов зависит от FPGA и способа подключения.
     -- При необходимости тристейт следует реализовать на верхнем
     -- уровне проекта.
-
+    lcd_on <= '1';
     rdn <= '1';
     -- Чтение отключено: RD_N всегда неактивен.
 
@@ -548,11 +551,6 @@ begin
     -- 12. Формирование подтверждения записи ack_wr
     -- ========================================================
 
-    -- ack_wr <= '1'
-    --     when (state = C2L_WRITE_DATA) and
-    --          (low_cnt = to_unsigned(W_LOW_END, low_cnt'length)) and
-    --          (wrn = '0')
-    --     else '0';
     ack_wr <= '1'
         when (state = C2L_WRITE_DATA) and
             (write_finish = '1')
@@ -601,9 +599,11 @@ begin
     begin
         if rst_n = '0' then
             csn <= '1';
+            lcd_reset <= '0';
             -- При сбросе LCD не выбран.
 
         elsif rising_edge(clk) then
+            lcd_reset <= '1';
 
             if state = C2L_CMD_PH then
                 -- Активируем LCD перед передачей команды.

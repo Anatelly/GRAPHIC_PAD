@@ -21,6 +21,8 @@ architecture tb of lcd_top_tb is
     signal wrn_tb      : std_logic;
     signal rdn_tb      : std_logic;
     signal data_lcd_tb : std_logic_vector(15 downto 0);
+    signal lcd_on_tb      : std_logic;
+    signal lcd_reset_tb   : std_logic;
 
 begin
 
@@ -41,7 +43,9 @@ begin
             data_cmdn => data_cmdn_tb,
             wrn       => wrn_tb,
             rdn       => rdn_tb,
-            data_lcd  => data_lcd_tb
+            data_lcd  => data_lcd_tb,
+            lcd_on    => lcd_on_tb,
+            lcd_reset => lcd_reset_tb
         );
 
     ----------------------------------------------------------------

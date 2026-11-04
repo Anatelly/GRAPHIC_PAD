@@ -48,7 +48,9 @@ entity lcd_top is
         y_coordinate     : in std_logic_vector(8 downto 0);
         buf_data_valid   : in std_logic;
         buf_data         : in std_logic_vector(15 downto 0);
+
         frame_update     : out std_logic;
+        data_bvld_ack    : out std_logic;
         initial_done     : out std_logic
     );
 end entity lcd_top;
@@ -77,7 +79,7 @@ architecture rtl of lcd_top is
     -- Сигналы управления display
     ----------------------------------------------------------------
     signal sleep_off      : std_logic;
-    signal buf_data_ack   : std_logic;
+    -- signal buf_data_ack   : std_logic;
     signal lcd_cmd_valid  : std_logic;
     signal lcd_cmd        : std_logic_vector(7 downto 0);
     signal lcd_cmd_cycle  : std_logic_vector(15 downto 0);
@@ -232,7 +234,8 @@ begin
             trigger_33ms     => trigger_33ms,
 
             sleep_off        => sleep_off,
-            data_bvld_ack    => buf_data_ack,
+            data_bvld_ack    => data_bvld_ack,
+            -- data_bvld_ack    => buf_data_ack,
             frame_update     => frame_update,
             initial_done     => initial_done,
 

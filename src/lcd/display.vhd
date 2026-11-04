@@ -58,11 +58,9 @@ entity display is
         -- 16-битное слово команды/параметра/пикселя для LCD.
         data_wr          : out std_logic_vector(15 downto 0);
 
-        -- Подтверждение записи от модуля cmd2lcd.
-        ack_wr           : in  std_logic;
         -- Сигнал завершения текущей команды от cmd2lcd.
         cmd_finish       : in  std_logic;
-        -- Сигнал завершения фазы записи от cmd2lcd.
+        -- Сигнал завершения записи слова от cmd2lcd.
         wrphase_finish   : in  std_logic
     );
 end entity display;
@@ -144,11 +142,11 @@ architecture rtl of display is
     signal cmd_cycle_end   : unsigned(15 downto 0) := (others => '0');
     -- Внутренний импульс завершения команды DPY.
     signal dpy_cmd_finish  : std_logic := '0';
+    --Флаг удержания команды завершения от cmd2lcd
+    signal cmd_finish_pending : std_logic := '0';
 
     -- Счётчик периодических интервалов при инициализации/ожидании.
     signal frame_cnt       : unsigned(7 downto 0) := (others => '0');
-    -- Внутренний флаг запуска отображения.
-    -- signal disp_start      : std_logic := '0';
     -- Флаг разрешения работы дисплея после инициализации.
     signal display_enb     : std_logic := '0';
     -- Зафиксированный запрос обновления полного кадра.
@@ -163,10 +161,6 @@ architecture rtl of display is
     signal sp_addr         : unsigned(15 downto 0) := (others => '0');
     -- Конечная граница Y обновляемой области.
     signal ep_addr         : unsigned(15 downto 0) := (others => '0');
-    -- Флаг завершения передачи таблицы RGB.
-    -- signal rgbset_finish   : std_logic := '0';
-    -- Флаг завершения этапа включения дисплея.
-    -- signal dispon_finish   : std_logic := '0';
 
     -- Запрос чтения очередного элемента внутренней LUT (не чтение LCD).
     signal lut_read_enb    : std_logic := '0';
@@ -176,13 +170,6 @@ architecture rtl of display is
     signal lut_data_valid  : std_logic := '0';
     -- Значение текущего элемента таблицы цветов.
     signal lut_data_buf    : std_logic_vector(7 downto 0) := (others => '0');
-
-    -- Флаг выбора красной тестовой полосы.
-    signal red_bg          : std_logic := '0';
-    -- Флаг выбора зелёной тестовой полосы.
-    signal green_bg        : std_logic := '0';
-    -- Флаг выбора синей тестовой полосы.
-    signal blue_bg         : std_logic := '0';
 
     -- Формирование байта LUT для 128 записей:
     -- R0..R15 и B0..B15 имеют шаг 2; R16..R31 и B16..B31
@@ -223,13 +210,10 @@ begin
             display_enb     <= '0';
             initial_done     <= '0';
             frame_cnt       <= (others => '0');
-            -- disp_start      <= '0';
             sc_addr         <= (others => '0');
             ec_addr         <= (others => '0');
             sp_addr         <= (others => '0');
             ep_addr         <= (others => '0');
-            -- rgbset_finish   <= '0';
-            -- dispon_finish   <= '0';
         elsif rising_edge(clk) then
             -- Фиксируем запрос полного обновления кадра.
             if frame_upd_start = '1' then
@@ -391,30 +375,6 @@ begin
     end process;
 
     ---------------------------------------------------------------------------
-    -- Цветные тестовые полосы в нижней части экрана.
-    ---------------------------------------------------------------------------
-    process(clk, rst_n)
-    begin
-        if rst_n = '0' then
-            red_bg   <= '0';
-            green_bg <= '0';
-            blue_bg  <= '0';
-        elsif rising_edge(clk) then
-            red_bg <= '0'; green_bg <= '0'; blue_bg <= '0';
-            if dpy_sta = DPY_READ_BUFF and sp_addr >= to_unsigned(299,16)
-                and sp_addr <= to_unsigned(319,16) then
-                if cmd_cnt >= to_unsigned(60,16) and cmd_cnt <= to_unsigned(80,16) then
-                    red_bg <= '1';
-                elsif cmd_cnt >= to_unsigned(110,16) and cmd_cnt <= to_unsigned(130,16) then
-                    green_bg <= '1';
-                elsif cmd_cnt >= to_unsigned(160,16) and cmd_cnt <= to_unsigned(180,16) then
-                    blue_bg <= '1';
-                end if;
-            end if;
-        end if;
-    end process;
-
-    ---------------------------------------------------------------------------
     -- Завершение команды DPY FSM и загрузка числа циклов команды.
     ---------------------------------------------------------------------------
     process(clk, rst_n)
@@ -434,6 +394,28 @@ begin
             else
                 dpy_cmd_finish <= '0';
             end if;
+        end if;
+    end process;
+
+    ---------------------------------------------------------------------------
+    -- Фиксация команды завершения от cmd2lcd
+    ---------------------------------------------------------------------------
+    process(clk, rst_n)
+    begin
+        if rst_n = '0' then
+            cmd_finish_pending <= '0';
+
+        elsif rising_edge(clk) then
+
+            -- Запоминаем завершение передачи
+            if cmd_finish = '1' then
+                cmd_finish_pending <= '1';
+
+            -- Сбрасываем флаг после обработки
+            elsif dpy_sta = DPY_WAIT_FINISH then
+                cmd_finish_pending <= '0';
+            end if;
+
         end if;
     end process;
 
@@ -538,7 +520,7 @@ begin
 
     process(dpy_sta, cmd_start, cmd_reg, cmd_cycle_end, cmd_cnt, par_enb,
             data_wr_valid, data_bvld_ack, wrphase_finish, lut_data_valid,
-            cmd_finish)
+            cmd_finish_pending)
     begin
         dpy_nxt <= DPY_IDLE;
         case dpy_sta is
@@ -608,7 +590,7 @@ begin
                     dpy_nxt <= DPY_READ_LUT;
                 end if;
             when DPY_WAIT_FINISH =>
-                if cmd_finish = '1' then 
+                if cmd_finish_pending = '1' then 
                     dpy_nxt <= DPY_FINISH;
                 else 
                     dpy_nxt <= DPY_WAIT_FINISH; 
@@ -767,7 +749,7 @@ begin
                 cmd_cycle <= std_logic_vector(to_unsigned(1,16));
             end if;
 
-            if ack_wr = '1' then
+            if wrphase_finish = '1' then
                 data_wr_valid <= '0'; --сброс флага валидности
             elsif dpy_sta = DPY_PAR_OUT and data_wr_valid = '0' and par_enb(0) = '1' then
                 data_wr_valid <= '1';
@@ -780,17 +762,7 @@ begin
             if dpy_sta = DPY_PAR_OUT and data_wr_valid = '0' and par_enb(0) = '1' then
                 data_wr <= par(1);
             elsif dpy_sta = DPY_READ_BUFF and data_wr_valid = '0' and data_buf_valid = '1' then
-                --тестовые полосы--
-                if red_bg = '1' then
-                    data_wr <= x"F800";
-                elsif green_bg = '1' then 
-                    data_wr <= x"07E0";
-                elsif blue_bg = '1' then 
-                    data_wr <= x"001F";
-                --тестовые полосы--
-                else 
-                    data_wr <= data_buff; 
-                end if;
+                data_wr <= data_buff; 
             elsif dpy_sta = DPY_READ_LUT and data_wr_valid = '0' and lut_data_valid = '1' then
                 data_wr <= x"00" & lut_data_buf;
             end if;

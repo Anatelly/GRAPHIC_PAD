@@ -3,6 +3,29 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+----------------------------------------------------------------
+-- Для работы с внутренним модулем формирования изображения
+----------------------------------------------------------------
+-- entity lcd_top is
+--     port (
+--         -- Системные сигналы
+--         clk          : in  std_logic;
+--         rst_n        : in  std_logic; --Сбро при 0. Рабочее состояние 1
+
+--         -- Интерфейс LCD
+--         csn      : out std_logic;
+--         data_cmdn : out std_logic;
+--         wrn      : out std_logic;
+--         rdn      : out std_logic;
+--         data_lcd : inout std_logic_vector(15 downto 0);
+--         lcd_on      : out std_logic;
+--         lcd_reset   : out std_logic
+--     );
+-- end entity lcd_top;
+
+----------------------------------------------------------------
+-- Для работы с внешним модулем формирования изображения
+----------------------------------------------------------------
 entity lcd_top is
     port (
         -- Системные сигналы
@@ -16,7 +39,17 @@ entity lcd_top is
         rdn      : out std_logic;
         data_lcd : inout std_logic_vector(15 downto 0);
         lcd_on      : out std_logic;
-        lcd_reset   : out std_logic
+        lcd_reset   : out std_logic;
+
+        --Управление из внешнего буфера
+        frame_upd_start  : in std_logic := '0';
+        single_upd_start : in std_logic := '0';
+        x_coordinate     : in std_logic_vector(8 downto 0);
+        y_coordinate     : in std_logic_vector(8 downto 0);
+        buf_data_valid   : in std_logic;
+        buf_data         : in std_logic_vector(15 downto 0);
+        frame_update     : out std_logic;
+        initial_done     : out std_logic
     );
 end entity lcd_top;
 
@@ -25,21 +58,20 @@ architecture rtl of lcd_top is
     ----------------------------------------------------------------
     -- Сигналы между cmd2lcd и display
     ----------------------------------------------------------------
-    signal lcd_write_ack     : std_logic;
     signal lcd_cmd_finish    : std_logic;
     signal lcd_wrphase_finish : std_logic;
 
     ----------------------------------------------------------------
-    -- Сигналы между rgb_test и display
+    -- Сигналы между rgb_test_simple и display
     ----------------------------------------------------------------
-    signal frame_upd_start  : std_logic := '0';
-    signal single_upd_start : std_logic := '0';
-    signal x_coordinate     : std_logic_vector(8 downto 0);
-    signal y_coordinate     : std_logic_vector(8 downto 0);
-    signal buf_data_valid   : std_logic;
-    signal buf_data         : std_logic_vector(15 downto 0);
-    signal frame_update     : std_logic;
-    signal initial_done     : std_logic;
+    -- signal frame_upd_start  : std_logic := '0';
+    -- signal single_upd_start : std_logic := '0';
+    -- signal x_coordinate     : std_logic_vector(8 downto 0);
+    -- signal y_coordinate     : std_logic_vector(8 downto 0);
+    -- signal buf_data_valid   : std_logic;
+    -- signal buf_data         : std_logic_vector(15 downto 0);
+    -- signal frame_update     : std_logic;
+    -- signal initial_done     : std_logic;
 
     ----------------------------------------------------------------
     -- Сигналы управления display
@@ -58,31 +90,6 @@ architecture rtl of lcd_top is
     signal trigger_33ms : std_logic;
 
     ----------------------------------------------------------------
-    -- Сигнал модуля чтения
-    ----------------------------------------------------------------  
-    -- signal ledr : std_logic_vector(15 downto 0);
-    -- signal test_done : std_logic;
-
-    -- component cmdlcd_read is
-    --     port (
-    --         clk             : in  std_logic;
-    --         rst_n           : in  std_logic;
-
-    --         ledr            : out std_logic_vector(15 downto 0);
-    --         test_done       : out std_logic;
-
-    --         csn             : out std_logic;
-    --         data_cmdn       : out std_logic;
-    --         wrn             : out std_logic;
-    --         rdn             : out std_logic;
-    --         data_lcd        : inout std_logic_vector(15 downto 0);
-    --         lcd_on          : out std_logic;
-    --         lcd_reset       : out std_logic
-
-    --     );
-    -- end component;
-
-    ----------------------------------------------------------------
     -- Объявления компонентов
     ----------------------------------------------------------------
     component cmd2lcd is
@@ -90,7 +97,6 @@ architecture rtl of lcd_top is
             clk             : in  std_logic;
             rst_n           : in  std_logic;
 
-            ack_wr          : out std_logic;
             cmd_finish      : out std_logic;
             wrphase_finish  : out std_logic;
 
@@ -110,25 +116,25 @@ architecture rtl of lcd_top is
         );
     end component;
 
-    component rgb_test_simple is
-        port (
-            clk              : in  std_logic;
-            rst_n            : in  std_logic;
+    -- component rgb_test_simple is
+    --     port (
+    --         clk              : in  std_logic;
+    --         rst_n            : in  std_logic;
 
-            frame_upd_start  : out std_logic;
-            single_upd_start : out std_logic;
-            x_coordinate     : out std_logic_vector(8 downto 0);
-            y_coordinate     : out std_logic_vector(8 downto 0);
+    --         frame_upd_start  : out std_logic;
+    --         single_upd_start : out std_logic;
+    --         x_coordinate     : out std_logic_vector(8 downto 0);
+    --         y_coordinate     : out std_logic_vector(8 downto 0);
 
-            data_buf_valid   : out std_logic;
-            data_buff        : out std_logic_vector(15 downto 0);
+    --         data_buf_valid   : out std_logic;
+    --         data_buff        : out std_logic_vector(15 downto 0);
 
-            initial_done     : in std_logic;
-            frame_update     : in  std_logic;
-            sleep_off        : in  std_logic;
-            data_bvld_ack    : in  std_logic
-        );
-    end component;
+    --         initial_done     : in std_logic;
+    --         frame_update     : in  std_logic;
+    --         sleep_off        : in  std_logic;
+    --         data_bvld_ack    : in  std_logic
+    --     );
+    -- end component;
 
     component display is
         port (
@@ -154,7 +160,6 @@ architecture rtl of lcd_top is
             data_wr_valid    : out std_logic;
             data_wr          : out std_logic_vector(15 downto 0);
 
-            ack_wr            : in  std_logic;
             cmd_finish        : in  std_logic;
             wrphase_finish    : in  std_logic
         );
@@ -169,25 +174,6 @@ architecture rtl of lcd_top is
     end component;
 
 begin
-    -- ----------------------------------------------------------------
-    -- -- Управление тестовым модулем чтения
-    -- ----------------------------------------------------------------
-    -- cmdlcd_read_u : cmdlcd_read
-    --     port map (
-    --         clk              => clk,
-    --         rst_n            => rst_n,
-
-    --         ledr             => ledr,
-    --         test_done        => test_done,
-
-    --         csn              => csn,
-    --         data_cmdn        => data_cmdn,
-    --         wrn              => wrn,
-    --         rdn              => rdn,
-    --         data_lcd         => data_lcd,
-    --         lcd_on           => lcd_on,
-    --         lcd_reset        => lcd_reset
-    --     );
 
     ----------------------------------------------------------------
     -- Управление физическим интерфейсом LCD
@@ -197,7 +183,6 @@ begin
             clk              => clk,
             rst_n            => rst_n,
 
-            ack_wr           => lcd_write_ack,
             cmd_finish       => lcd_cmd_finish,
             wrphase_finish   => lcd_wrphase_finish,
 
@@ -212,30 +197,30 @@ begin
             wrn              => wrn,
             rdn              => rdn,
             data_lcd         => data_lcd,
-				lcd_on           => lcd_on,
-				lcd_reset        => lcd_reset
+            lcd_on           => lcd_on,
+            lcd_reset        => lcd_reset
         );
 
     ----------------------------------------------------------------
     -- Формирование данных изображения
     ----------------------------------------------------------------
-    rgb_test_simple_u : rgb_test_simple
-        port map (
-            clk              => clk,
-            rst_n            => rst_n,
+    -- rgb_test_simple_u : rgb_test_simple
+    --     port map (
+    --         clk              => clk,
+    --         rst_n            => rst_n,
 
-            frame_upd_start  => frame_upd_start,
-            single_upd_start => single_upd_start,
-            x_coordinate     => x_coordinate,
-            y_coordinate     => y_coordinate,
-            data_buf_valid   => buf_data_valid,
-            data_buff        => buf_data,
+    --         frame_upd_start  => frame_upd_start,
+    --         single_upd_start => single_upd_start,
+    --         x_coordinate     => x_coordinate,
+    --         y_coordinate     => y_coordinate,
+    --         data_buf_valid   => buf_data_valid,
+    --         data_buff        => buf_data,
 
-            frame_update     => frame_update,
-            initial_done     => initial_done,
-            sleep_off        => sleep_off,
-            data_bvld_ack    => buf_data_ack
-        );
+    --         frame_update     => frame_update,
+    --         initial_done     => initial_done,
+    --         sleep_off        => sleep_off,
+    --         data_bvld_ack    => buf_data_ack
+    --     );
 
     ----------------------------------------------------------------
     -- Управление обновлением экрана и передачей команд LCD
@@ -264,7 +249,6 @@ begin
             data_wr_valid    => lcd_wdata_valid,
             data_wr          => lcd_wdata,
 
-            ack_wr            => lcd_write_ack,
             cmd_finish        => lcd_cmd_finish,
             wrphase_finish    => lcd_wrphase_finish
         );

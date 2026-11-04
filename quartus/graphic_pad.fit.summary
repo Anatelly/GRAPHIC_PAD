@@ -1,16 +1,16 @@
-Fitter Status : Successful - Tue Nov 03 14:54:27 2026
+Fitter Status : Successful - Wed Nov 04 21:51:31 2026
 Quartus Prime Version : 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 Revision Name : graphic_pad
 Top-level Entity Name : graphic_pad
 Family : Cyclone IV E
 Device : EP4CE115F29C7
 Timing Models : Final
-Total logic elements : 1,575 / 114,480 ( 1 % )
-    Total combinational functions : 1,018 / 114,480 ( < 1 % )
-    Dedicated logic registers : 1,222 / 114,480 ( 1 % )
-Total registers : 1222
+Total logic elements : 1,976 / 114,480 ( 2 % )
+    Total combinational functions : 1,084 / 114,480 ( < 1 % )
+    Dedicated logic registers : 1,629 / 114,480 ( 1 % )
+Total registers : 1629
 Total pins : 24 / 529 ( 5 % )
 Total virtual pins : 0
-Total memory bits : 65,536 / 3,981,312 ( 2 % )
+Total memory bits : 122,880 / 3,981,312 ( 3 % )
 Embedded Multiplier 9-bit elements : 0 / 532 ( 0 % )
 Total PLLs : 1 / 4 ( 25 % )

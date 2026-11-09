@@ -66,14 +66,14 @@ architecture rtl of lcd_top is
     ----------------------------------------------------------------
     -- Сигналы между rgb_test_simple и display
     ----------------------------------------------------------------
-    -- signal frame_upd_start  : std_logic := '0';
-    -- signal single_upd_start : std_logic := '0';
-    -- signal x_coordinate     : std_logic_vector(8 downto 0);
-    -- signal y_coordinate     : std_logic_vector(8 downto 0);
-    -- signal buf_data_valid   : std_logic;
-    -- signal buf_data         : std_logic_vector(15 downto 0);
-    -- signal frame_update     : std_logic;
-    -- signal initial_done     : std_logic;
+--    signal frame_upd_start  : std_logic := '0';
+--    signal single_upd_start : std_logic := '0';
+--    signal x_coordinate     : std_logic_vector(8 downto 0);
+--    signal y_coordinate     : std_logic_vector(8 downto 0);
+--    signal buf_data_valid   : std_logic;
+--    signal buf_data         : std_logic_vector(15 downto 0);
+--    signal frame_update     : std_logic;
+--    signal initial_done     : std_logic;
 
     ----------------------------------------------------------------
     -- Сигналы управления display

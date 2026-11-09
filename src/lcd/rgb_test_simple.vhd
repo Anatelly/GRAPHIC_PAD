@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 
 entity rgb_test_simple is
     generic (
-        TEST_MODE  : integer := 1 --выбор теста
+        TEST_MODE  : integer := 2 --выбор теста
     );
     port (
         clk   : in std_logic;

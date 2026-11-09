@@ -1,5 +1,5 @@
 Analysis & Synthesis report for graphic_pad
-Wed Nov 04 22:55:49 2026
+Mon Nov 09 18:16:20 2026
 Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
 
 
@@ -15,26 +15,31 @@ Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
   7. Analysis & Synthesis Resource Utilization by Entity
   8. Analysis & Synthesis RAM Summary
   9. Analysis & Synthesis IP Cores Summary
- 10. State Machine - |graphic_pad|lcd_top:inst|display:display_u|pcd_sta
- 11. State Machine - |graphic_pad|lcd_top:inst|display:display_u|dpy_sta
- 12. State Machine - |graphic_pad|lcd_top:inst|cmd2lcd:cmd2lcd_u|state
- 13. Registers Removed During Synthesis
- 14. Removed Registers Triggering Further Register Optimizations
- 15. General Register Statistics
- 16. Inverted Register Statistics
- 17. Multiplexer Restructuring Statistics (Restructuring Performed)
- 18. Source assignments for sld_signaltap:auto_signaltap_0
- 19. Parameter Settings for User Entity Instance: lcd_top:inst|cmd2lcd:cmd2lcd_u
- 20. Parameter Settings for User Entity Instance: lcd_top:inst|timer:timer_u
- 21. Parameter Settings for User Entity Instance: pll_gen:pll|altpll:altpll_component
- 22. Parameter Settings for Inferred Entity Instance: sld_signaltap:auto_signaltap_0
- 23. altpll Parameter Settings by Entity Instance
- 24. Port Connectivity Checks: "lcd_top:inst|display:display_u"
- 25. Signal Tap Logic Analyzer Settings
- 26. Post-Synthesis Netlist Statistics for Top Partition
- 27. Elapsed Time Per Partition
- 28. Connections to In-System Debugging Instance "auto_signaltap_0"
- 29. Analysis & Synthesis Messages
+ 10. State Machine - |graphic_pad|frame_buffer:inst3|frame_buffer_ctrl:core_inst|state
+ 11. State Machine - |graphic_pad|mouse:inst2|state_reg
+ 12. State Machine - |graphic_pad|mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|state_reg
+ 13. State Machine - |graphic_pad|mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|state_reg
+ 14. State Machine - |graphic_pad|lcd_top:inst|display:display_u|pcd_sta
+ 15. State Machine - |graphic_pad|lcd_top:inst|display:display_u|dpy_sta
+ 16. State Machine - |graphic_pad|lcd_top:inst|cmd2lcd:cmd2lcd_u|state
+ 17. Registers Removed During Synthesis
+ 18. Removed Registers Triggering Further Register Optimizations
+ 19. General Register Statistics
+ 20. Inverted Register Statistics
+ 21. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 22. Source assignments for sld_signaltap:auto_signaltap_0
+ 23. Parameter Settings for User Entity Instance: lcd_top:inst|cmd2lcd:cmd2lcd_u
+ 24. Parameter Settings for User Entity Instance: lcd_top:inst|timer:timer_u
+ 25. Parameter Settings for User Entity Instance: pll_gen:pll|altpll:altpll_component
+ 26. Parameter Settings for Inferred Entity Instance: sld_signaltap:auto_signaltap_0
+ 27. altpll Parameter Settings by Entity Instance
+ 28. Port Connectivity Checks: "mouse:inst2|PS_2_rxtx:ps2_unit"
+ 29. Port Connectivity Checks: "lcd_top:inst|display:display_u"
+ 30. Signal Tap Logic Analyzer Settings
+ 31. Post-Synthesis Netlist Statistics for Top Partition
+ 32. Elapsed Time Per Partition
+ 33. Connections to In-System Debugging Instance "auto_signaltap_0"
+ 34. Analysis & Synthesis Messages
 
 
 
@@ -60,7 +65,7 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Nov 04 22:55:49 2026       ;
+; Analysis & Synthesis Status        ; Successful - Mon Nov 09 18:16:20 2026       ;
 ; Quartus Prime Version              ; 18.1.0 Build 625 09/12/2018 SJ Lite Edition ;
 ; Revision Name                      ; graphic_pad                                 ;
 ; Top-level Entity Name              ; graphic_pad                                 ;
@@ -183,7 +188,8 @@ refer to the applicable agreement for further details.
 ;     Processor 5            ;   0.0%      ;
 ;     Processor 6            ;   0.0%      ;
 ;     Processor 7            ;   0.0%      ;
-;     Processors 8-16        ;   0.0%      ;
+;     Processor 8            ;   0.0%      ;
+;     Processors 9-16        ;   0.0%      ;
 +----------------------------+-------------+
 
 
@@ -192,6 +198,13 @@ refer to the applicable agreement for further details.
 +--------------------------------------------------------------------+-----------------+----------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------+-------------+
 ; File Name with User-Entered Path                                   ; Used in Netlist ; File Type                                    ; File Name with Absolute Path                                                                                                    ; Library     ;
 +--------------------------------------------------------------------+-----------------+----------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------+-------------+
+; ../src/frame_buf/frame_buffer_ram.vhd                              ; yes             ; User VHDL File                               ; C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/frame_buf/frame_buffer_ram.vhd                                         ;             ;
+; ../src/frame_buf/frame_buffer_ctrl.vhd                             ; yes             ; User VHDL File                               ; C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/frame_buf/frame_buffer_ctrl.vhd                                        ;             ;
+; ../src/frame_buf/frame_buffer.vhd                                  ; yes             ; User VHDL File                               ; C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/frame_buf/frame_buffer.vhd                                             ;             ;
+; ../src/mouse/PS_2_tx.vhd                                           ; yes             ; User VHDL File                               ; C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/PS_2_tx.vhd                                                      ;             ;
+; ../src/mouse/PS_2_rxtx.vhd                                         ; yes             ; User VHDL File                               ; C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/PS_2_rxtx.vhd                                                    ;             ;
+; ../src/mouse/PS_2_rx.vhd                                           ; yes             ; User VHDL File                               ; C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/PS_2_rx.vhd                                                      ;             ;
+; ../src/mouse/mouse.vhd                                             ; yes             ; User VHDL File                               ; C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/mouse.vhd                                                        ;             ;
 ; ../src/lcd/timer.vhd                                               ; yes             ; User VHDL File                               ; C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/lcd/timer.vhd                                                          ;             ;
 ; ../src/lcd/lcd_top.vhd                                             ; yes             ; User VHDL File                               ; C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/lcd/lcd_top.vhd                                                        ;             ;
 ; ../src/lcd/cmd2lcd.vhd                                             ; yes             ; User VHDL File                               ; C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/lcd/cmd2lcd.vhd                                                        ;             ;
@@ -505,6 +518,61 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 
 
 Encoding Type:  One-Hot
++-----------------------------------------------------------------------------------+
+; State Machine - |graphic_pad|frame_buffer:inst3|frame_buffer_ctrl:core_inst|state ;
++-------------+------------+------------+------------+------------------------------+
+; Name        ; state.DRAW ; state.MOVE ; state.IDLE ; state.CLEAR                  ;
++-------------+------------+------------+------------+------------------------------+
+; state.CLEAR ; 0          ; 0          ; 0          ; 0                            ;
+; state.IDLE  ; 0          ; 0          ; 1          ; 1                            ;
+; state.MOVE  ; 0          ; 1          ; 0          ; 1                            ;
+; state.DRAW  ; 1          ; 0          ; 0          ; 1                            ;
++-------------+------------+------------+------------+------------------------------+
+
+
+Encoding Type:  One-Hot
++----------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |graphic_pad|mouse:inst2|state_reg                                                                                           ;
++-----------------+----------------+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+
+; Name            ; state_reg.done ; state_reg.pack3 ; state_reg.pack2 ; state_reg.pack1 ; state_reg.init3 ; state_reg.init2 ; state_reg.init1 ;
++-----------------+----------------+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+
+; state_reg.init1 ; 0              ; 0               ; 0               ; 0               ; 0               ; 0               ; 0               ;
+; state_reg.init2 ; 0              ; 0               ; 0               ; 0               ; 0               ; 1               ; 1               ;
+; state_reg.init3 ; 0              ; 0               ; 0               ; 0               ; 1               ; 0               ; 1               ;
+; state_reg.pack1 ; 0              ; 0               ; 0               ; 1               ; 0               ; 0               ; 1               ;
+; state_reg.pack2 ; 0              ; 0               ; 1               ; 0               ; 0               ; 0               ; 1               ;
+; state_reg.pack3 ; 0              ; 1               ; 0               ; 0               ; 0               ; 0               ; 1               ;
+; state_reg.done  ; 1              ; 0               ; 0               ; 0               ; 0               ; 0               ; 1               ;
++-----------------+----------------+-----------------+-----------------+-----------------+-----------------+-----------------+-----------------+
+
+
+Encoding Type:  One-Hot
++------------------------------------------------------------------------------------------------------+
+; State Machine - |graphic_pad|mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|state_reg            ;
++-----------------+----------------+----------------+-----------------+---------------+----------------+
+; Name            ; state_reg.stop ; state_reg.data ; state_reg.start ; state_reg.rts ; state_reg.idle ;
++-----------------+----------------+----------------+-----------------+---------------+----------------+
+; state_reg.idle  ; 0              ; 0              ; 0               ; 0             ; 0              ;
+; state_reg.rts   ; 0              ; 0              ; 0               ; 1             ; 1              ;
+; state_reg.start ; 0              ; 0              ; 1               ; 0             ; 1              ;
+; state_reg.data  ; 0              ; 1              ; 0               ; 0             ; 1              ;
+; state_reg.stop  ; 1              ; 0              ; 0               ; 0             ; 1              ;
++-----------------+----------------+----------------+-----------------+---------------+----------------+
+
+
+Encoding Type:  One-Hot
++-------------------------------------------------------------------------------------------+
+; State Machine - |graphic_pad|mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|state_reg ;
++----------------+----------------+---------------+-----------------------------------------+
+; Name           ; state_reg.load ; state_reg.dps ; state_reg.idle                          ;
++----------------+----------------+---------------+-----------------------------------------+
+; state_reg.idle ; 0              ; 0             ; 0                                       ;
+; state_reg.dps  ; 0              ; 1             ; 1                                       ;
+; state_reg.load ; 1              ; 0             ; 1                                       ;
++----------------+----------------+---------------+-----------------------------------------+
+
+
+Encoding Type:  One-Hot
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ; State Machine - |graphic_pad|lcd_top:inst|display:display_u|pcd_sta                                                                                                                                                                                                ;
 +------------------------+-----------------------+-------------------+-------------------+-------------------+-----------------------+------------------------+--------------------+--------------------+--------------------+--------------------+------------------+
@@ -562,234 +630,328 @@ Encoding Type:  One-Hot
 +-------------------------+------------------+-------------------------+----------------------+----------------------+------------------+----------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                                                     ;
-+---------------------------------------------------------+--------------------------------------------------------------+
-; Register name                                           ; Reason for Removal                                           ;
-+---------------------------------------------------------+--------------------------------------------------------------+
-; lcd_top:inst|display:display_u|sc_addr[0..15]           ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|ec_addr[4,8..15]         ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|data_bvld_ack            ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|frame_upd_keep           ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|single_upd_keep          ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|sp_addr[0..15]           ; Stuck at GND due to stuck port clock_enable                  ;
-; lcd_top:inst|display:display_u|ep_addr[0..15]           ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|cmd_cycle[12]            ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
-; lcd_top:inst|display:display_u|cmd_cycle_end[11]        ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
-; lcd_top:inst|display:display_u|cmd_cycle[8]             ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
-; lcd_top:inst|display:display_u|cmd_cycle_end[8,12]      ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
-; lcd_top:inst|display:display_u|cmd_cycle[10,14]         ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
-; lcd_top:inst|display:display_u|cmd_cycle_end[3,10,14]   ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
-; lcd_top:inst|display:display_u|cmd_cycle_end[9]         ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[13] ;
-; lcd_top:inst|display:display_u|cmd_cycle[3,9,11,13,15]  ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[13] ;
-; lcd_top:inst|display:display_u|cmd_cycle[7]             ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[7]  ;
-; lcd_top:inst|display:display_u|cmd_cycle[6]             ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[6]  ;
-; lcd_top:inst|display:display_u|cmd_cycle[5]             ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[5]  ;
-; lcd_top:inst|display:display_u|cmd_cycle[1]             ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[1]  ;
-; lcd_top:inst|display:display_u|cmd_cycle[0]             ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[0]  ;
-; lcd_top:inst|display:display_u|par[8][11]               ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
-; lcd_top:inst|display:display_u|par[8][3]                ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
-; lcd_top:inst|display:display_u|par[8][15]               ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
-; lcd_top:inst|display:display_u|par[8][7]                ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
-; lcd_top:inst|display:display_u|par[8][13]               ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
-; lcd_top:inst|display:display_u|par[8][9]                ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
-; lcd_top:inst|display:display_u|par[8][5]                ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
-; lcd_top:inst|display:display_u|par[8][1]                ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
-; lcd_top:inst|display:display_u|par[8][12]               ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
-; lcd_top:inst|display:display_u|par[8][10]               ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
-; lcd_top:inst|display:display_u|par[8][8]                ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
-; lcd_top:inst|display:display_u|par[8][6]                ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
-; lcd_top:inst|display:display_u|par[8][4]                ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
-; lcd_top:inst|display:display_u|par[8][2]                ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
-; lcd_top:inst|display:display_u|par[8][0]                ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
-; lcd_top:inst|display:display_u|cmd_cycle_end[13]        ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
-; lcd_top:inst|display:display_u|cmd_cycle[4]             ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[4]  ;
-; lcd_top:inst|display:display_u|par[8][14]               ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
-; lcd_top:inst|display:display_u|par[7][15]               ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
-; lcd_top:inst|display:display_u|par[7][13]               ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
-; lcd_top:inst|display:display_u|par[7][11]               ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
-; lcd_top:inst|display:display_u|par[7][9]                ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
-; lcd_top:inst|display:display_u|par[7][7]                ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
-; lcd_top:inst|display:display_u|par[7][3]                ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
-; lcd_top:inst|display:display_u|par[7][5]                ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
-; lcd_top:inst|display:display_u|par[7][1]                ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
-; lcd_top:inst|display:display_u|par[7][12]               ; Merged with lcd_top:inst|display:display_u|par[7][14]        ;
-; lcd_top:inst|display:display_u|par[7][0]                ; Merged with lcd_top:inst|display:display_u|par[7][14]        ;
-; lcd_top:inst|display:display_u|par[7][8]                ; Merged with lcd_top:inst|display:display_u|par[7][14]        ;
-; lcd_top:inst|display:display_u|par[7][10]               ; Merged with lcd_top:inst|display:display_u|par[7][14]        ;
-; lcd_top:inst|display:display_u|par[7][2]                ; Merged with lcd_top:inst|display:display_u|par[7][14]        ;
-; lcd_top:inst|display:display_u|par[7][6]                ; Merged with lcd_top:inst|display:display_u|par[7][14]        ;
-; lcd_top:inst|display:display_u|cmd_cycle[2]             ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[2]  ;
-; lcd_top:inst|display:display_u|par[7][14]               ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
-; lcd_top:inst|display:display_u|par[7][4]                ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
-; lcd_top:inst|display:display_u|par[6][3]                ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
-; lcd_top:inst|display:display_u|par[6][11]               ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
-; lcd_top:inst|display:display_u|par[6][15]               ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
-; lcd_top:inst|display:display_u|par[6][7]                ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
-; lcd_top:inst|display:display_u|par[6][13]               ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
-; lcd_top:inst|display:display_u|par[6][9]                ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
-; lcd_top:inst|display:display_u|par[6][5]                ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
-; lcd_top:inst|display:display_u|par[6][1]                ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
-; lcd_top:inst|display:display_u|par[6][12]               ; Merged with lcd_top:inst|display:display_u|par[6][14]        ;
-; lcd_top:inst|display:display_u|par[6][10]               ; Merged with lcd_top:inst|display:display_u|par[6][14]        ;
-; lcd_top:inst|display:display_u|par[6][8]                ; Merged with lcd_top:inst|display:display_u|par[6][14]        ;
-; lcd_top:inst|display:display_u|par[6][6]                ; Merged with lcd_top:inst|display:display_u|par[6][14]        ;
-; lcd_top:inst|display:display_u|par[6][2]                ; Merged with lcd_top:inst|display:display_u|par[6][14]        ;
-; lcd_top:inst|display:display_u|par[6][0]                ; Merged with lcd_top:inst|display:display_u|par[6][14]        ;
-; lcd_top:inst|display:display_u|par[6][14]               ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
-; lcd_top:inst|display:display_u|par[6][4]                ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
-; lcd_top:inst|display:display_u|par[5][3]                ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
-; lcd_top:inst|display:display_u|par[5][11]               ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
-; lcd_top:inst|display:display_u|par[5][7]                ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
-; lcd_top:inst|display:display_u|par[5][13]               ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
-; lcd_top:inst|display:display_u|par[5][9]                ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
-; lcd_top:inst|display:display_u|par[5][5]                ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
-; lcd_top:inst|display:display_u|par[5][1]                ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
-; lcd_top:inst|display:display_u|par[5][12]               ; Merged with lcd_top:inst|display:display_u|par[5][14]        ;
-; lcd_top:inst|display:display_u|par[5][10]               ; Merged with lcd_top:inst|display:display_u|par[5][14]        ;
-; lcd_top:inst|display:display_u|par[5][8]                ; Merged with lcd_top:inst|display:display_u|par[5][14]        ;
-; lcd_top:inst|display:display_u|par[5][6]                ; Merged with lcd_top:inst|display:display_u|par[5][14]        ;
-; lcd_top:inst|display:display_u|par[5][2]                ; Merged with lcd_top:inst|display:display_u|par[5][14]        ;
-; lcd_top:inst|display:display_u|par[5][0]                ; Merged with lcd_top:inst|display:display_u|par[5][14]        ;
-; lcd_top:inst|display:display_u|par[5][15]               ; Merged with lcd_top:inst|display:display_u|par_enb[4]        ;
-; lcd_top:inst|display:display_u|par[5][4]                ; Merged with lcd_top:inst|display:display_u|par_enb[4]        ;
-; lcd_top:inst|display:display_u|par[5][14]               ; Merged with lcd_top:inst|display:display_u|par_enb[4]        ;
-; lcd_top:inst|display:display_u|par[4][11]               ; Merged with lcd_top:inst|display:display_u|par[4][15]        ;
-; lcd_top:inst|display:display_u|par[4][13]               ; Merged with lcd_top:inst|display:display_u|par[4][15]        ;
-; lcd_top:inst|display:display_u|par[4][9]                ; Merged with lcd_top:inst|display:display_u|par[4][15]        ;
-; lcd_top:inst|display:display_u|par[4][12]               ; Merged with lcd_top:inst|display:display_u|par[4][14]        ;
-; lcd_top:inst|display:display_u|par[4][10]               ; Merged with lcd_top:inst|display:display_u|par[4][14]        ;
-; lcd_top:inst|display:display_u|par[4][8]                ; Merged with lcd_top:inst|display:display_u|par[4][14]        ;
-; lcd_top:inst|display:display_u|par[3][11]               ; Merged with lcd_top:inst|display:display_u|par[3][15]        ;
-; lcd_top:inst|display:display_u|par[3][13]               ; Merged with lcd_top:inst|display:display_u|par[3][15]        ;
-; lcd_top:inst|display:display_u|par[3][9]                ; Merged with lcd_top:inst|display:display_u|par[3][15]        ;
-; lcd_top:inst|display:display_u|par[3][12]               ; Merged with lcd_top:inst|display:display_u|par[3][14]        ;
-; lcd_top:inst|display:display_u|par[3][10]               ; Merged with lcd_top:inst|display:display_u|par[3][14]        ;
-; lcd_top:inst|display:display_u|par[3][8]                ; Merged with lcd_top:inst|display:display_u|par[3][14]        ;
-; lcd_top:inst|display:display_u|par[4][14]               ; Merged with lcd_top:inst|display:display_u|par[4][15]        ;
-; lcd_top:inst|display:display_u|par[2][11]               ; Merged with lcd_top:inst|display:display_u|par[2][15]        ;
-; lcd_top:inst|display:display_u|par[2][13]               ; Merged with lcd_top:inst|display:display_u|par[2][15]        ;
-; lcd_top:inst|display:display_u|par[2][9]                ; Merged with lcd_top:inst|display:display_u|par[2][15]        ;
-; lcd_top:inst|display:display_u|par[2][12]               ; Merged with lcd_top:inst|display:display_u|par[2][14]        ;
-; lcd_top:inst|display:display_u|par[2][10]               ; Merged with lcd_top:inst|display:display_u|par[2][14]        ;
-; lcd_top:inst|display:display_u|par[2][8]                ; Merged with lcd_top:inst|display:display_u|par[2][14]        ;
-; lcd_top:inst|display:display_u|par[3][14]               ; Merged with lcd_top:inst|display:display_u|par[3][15]        ;
-; lcd_top:inst|display:display_u|par[1][11]               ; Merged with lcd_top:inst|display:display_u|par[1][15]        ;
-; lcd_top:inst|display:display_u|par[1][13]               ; Merged with lcd_top:inst|display:display_u|par[1][15]        ;
-; lcd_top:inst|display:display_u|par[1][9]                ; Merged with lcd_top:inst|display:display_u|par[1][15]        ;
-; lcd_top:inst|display:display_u|par[1][12]               ; Merged with lcd_top:inst|display:display_u|par[1][14]        ;
-; lcd_top:inst|display:display_u|par[1][8]                ; Merged with lcd_top:inst|display:display_u|par[1][14]        ;
-; lcd_top:inst|display:display_u|par[1][10]               ; Merged with lcd_top:inst|display:display_u|par[1][14]        ;
-; lcd_top:inst|display:display_u|par[2][14]               ; Merged with lcd_top:inst|display:display_u|par[2][15]        ;
-; lcd_top:inst|display:display_u|par[1][14]               ; Merged with lcd_top:inst|display:display_u|par[1][15]        ;
-; lcd_top:inst|display:display_u|data_wr[9,11,13]         ; Merged with lcd_top:inst|display:display_u|data_wr[15]       ;
-; lcd_top:inst|display:display_u|data_wr[8,10,12]         ; Merged with lcd_top:inst|display:display_u|data_wr[14]       ;
-; lcd_top:inst|display:display_u|data_wr[14]              ; Merged with lcd_top:inst|display:display_u|data_wr[15]       ;
-; lcd_top:inst|display:display_u|cmd_reg[7]               ; Merged with lcd_top:inst|display:display_u|cmd_reg[6]        ;
-; lcd_top:inst|display:display_u|cmd_reg[5]               ; Merged with lcd_top:inst|display:display_u|cmd_reg[3]        ;
-; lcd_top:inst|display:display_u|cmd_cycle_end[5,6]       ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[4]  ;
-; lcd_top:inst|cmd2lcd:cmd2lcd_u|data_lcd_out[8,9,11..15] ; Merged with lcd_top:inst|cmd2lcd:cmd2lcd_u|data_lcd_out[10]  ;
-; lcd_top:inst|display:display_u|cmd[7]                   ; Merged with lcd_top:inst|display:display_u|cmd[6]            ;
-; lcd_top:inst|display:display_u|cmd[5]                   ; Merged with lcd_top:inst|display:display_u|cmd[3]            ;
-; lcd_top:inst|display:display_u|par[1][3]                ; Merged with lcd_top:inst|display:display_u|par[1][1]         ;
-; lcd_top:inst|display:display_u|par[1][5]                ; Merged with lcd_top:inst|display:display_u|par[1][1]         ;
-; lcd_top:inst|display:display_u|par[1][7]                ; Merged with lcd_top:inst|display:display_u|par[1][1]         ;
-; lcd_top:inst|display:display_u|par[1][2]                ; Merged with lcd_top:inst|display:display_u|par[1][0]         ;
-; lcd_top:inst|display:display_u|par[1][6]                ; Merged with lcd_top:inst|display:display_u|par[1][0]         ;
-; lcd_top:inst|display:display_u|par[2][1]                ; Merged with lcd_top:inst|display:display_u|par[2][0]         ;
-; lcd_top:inst|display:display_u|par[2][2]                ; Merged with lcd_top:inst|display:display_u|par[2][0]         ;
-; lcd_top:inst|display:display_u|par[2][3]                ; Merged with lcd_top:inst|display:display_u|par[2][0]         ;
-; lcd_top:inst|display:display_u|par[2][5]                ; Merged with lcd_top:inst|display:display_u|par[2][0]         ;
-; lcd_top:inst|display:display_u|par[2][6]                ; Merged with lcd_top:inst|display:display_u|par[2][0]         ;
-; lcd_top:inst|display:display_u|par[2][7]                ; Merged with lcd_top:inst|display:display_u|par[2][0]         ;
-; lcd_top:inst|display:display_u|par[3][1]                ; Merged with lcd_top:inst|display:display_u|par[3][0]         ;
-; lcd_top:inst|display:display_u|par[3][2]                ; Merged with lcd_top:inst|display:display_u|par[3][0]         ;
-; lcd_top:inst|display:display_u|par[3][3]                ; Merged with lcd_top:inst|display:display_u|par[3][0]         ;
-; lcd_top:inst|display:display_u|par[3][5]                ; Merged with lcd_top:inst|display:display_u|par[3][0]         ;
-; lcd_top:inst|display:display_u|par[3][6]                ; Merged with lcd_top:inst|display:display_u|par[3][0]         ;
-; lcd_top:inst|display:display_u|par[3][7]                ; Merged with lcd_top:inst|display:display_u|par[3][0]         ;
-; lcd_top:inst|display:display_u|par[4][1]                ; Merged with lcd_top:inst|display:display_u|par[4][0]         ;
-; lcd_top:inst|display:display_u|par[4][2]                ; Merged with lcd_top:inst|display:display_u|par[4][0]         ;
-; lcd_top:inst|display:display_u|par[4][3]                ; Merged with lcd_top:inst|display:display_u|par[4][0]         ;
-; lcd_top:inst|display:display_u|par[4][5]                ; Merged with lcd_top:inst|display:display_u|par[4][0]         ;
-; lcd_top:inst|display:display_u|par[4][6]                ; Merged with lcd_top:inst|display:display_u|par[4][0]         ;
-; lcd_top:inst|display:display_u|par[4][7]                ; Merged with lcd_top:inst|display:display_u|par[4][0]         ;
-; lcd_top:inst|display:display_u|ec_addr[1..3,5..7]       ; Merged with lcd_top:inst|display:display_u|ec_addr[0]        ;
-; lcd_top:inst|display:display_u|cmd_cycle_end[15]        ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|par_enb[4..7]            ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|par[4][15]               ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|par[3][15]               ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|par[2][15]               ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|par[1][15]               ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|data_wr[15]              ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|par[4][4]                ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|cmd2lcd:cmd2lcd_u|data_lcd_out[10]         ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|par[3][4]                ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|par[2][4]                ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|cmd_reg[6]               ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|cmd[6]                   ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|lut_data_buf[7]          ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|dpy_sta.DPY_CHK_BUFNUMB  ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|dpy_sta.DPY_NOP          ; Stuck at GND due to stuck port data_in                       ;
-; lcd_top:inst|display:display_u|lut_data_buf[6]          ; Stuck at GND due to stuck port data_in                       ;
-; Total Number of Removed Registers = 245                 ;                                                              ;
-+---------------------------------------------------------+--------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                                                 ;
++---------------------------------------------------------------------+--------------------------------------------------------------+
+; Register name                                                       ; Reason for Removal                                           ;
++---------------------------------------------------------------------+--------------------------------------------------------------+
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|clear_x[0..7]        ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|clear_y[0..8]        ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|x[7]                 ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|x[3..6]              ; Stuck at VCC due to stuck port preset                        ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|x[0..2]              ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|y[8]                 ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|y[7]                 ; Stuck at VCC due to stuck port preset                        ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|y[6]                 ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|y[5]                 ; Stuck at VCC due to stuck port preset                        ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|y[0..4]              ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_x[7]          ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_x[3..6]       ; Stuck at VCC due to stuck port preset                        ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_x[0..2]       ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[8]          ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[7]          ; Stuck at VCC due to stuck port preset                        ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[6]          ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[5]          ; Stuck at VCC due to stuck port preset                        ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[0..4]       ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|dx[0..8]             ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|dy[0..8]             ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|filter_reg[0..7] ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|f_ps2c_reg       ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|c_reg[0..12]     ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|n_reg[0..3]      ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|filter_reg[0..7] ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|f_ps2c_reg       ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|n_reg[0..3]      ; Stuck at GND due to stuck port clear                         ;
+; lcd_top:inst|display:display_u|sc_addr[0..15]                       ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|ec_addr[4,8..15]                     ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|data_bvld_ack                        ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|frame_upd_keep                       ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|single_upd_keep                      ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|sp_addr[0..15]                       ; Stuck at GND due to stuck port clock_enable                  ;
+; lcd_top:inst|display:display_u|ep_addr[0..15]                       ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|cmd_cycle[12]                        ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
+; lcd_top:inst|display:display_u|cmd_cycle_end[11]                    ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
+; lcd_top:inst|display:display_u|cmd_cycle[8]                         ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
+; lcd_top:inst|display:display_u|cmd_cycle_end[8,12]                  ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
+; lcd_top:inst|display:display_u|cmd_cycle[10,14]                     ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
+; lcd_top:inst|display:display_u|cmd_cycle_end[3,10,14]               ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
+; lcd_top:inst|display:display_u|cmd_cycle_end[9]                     ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[13] ;
+; lcd_top:inst|display:display_u|cmd_cycle[3,9,11,13,15]              ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[13] ;
+; lcd_top:inst|display:display_u|cmd_cycle[7]                         ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[7]  ;
+; lcd_top:inst|display:display_u|cmd_cycle[6]                         ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[6]  ;
+; lcd_top:inst|display:display_u|cmd_cycle[5]                         ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[5]  ;
+; lcd_top:inst|display:display_u|cmd_cycle[1]                         ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[1]  ;
+; lcd_top:inst|display:display_u|cmd_cycle[0]                         ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[0]  ;
+; lcd_top:inst|display:display_u|par[8][11]                           ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
+; lcd_top:inst|display:display_u|par[8][3]                            ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
+; lcd_top:inst|display:display_u|par[8][15]                           ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
+; lcd_top:inst|display:display_u|par[8][7]                            ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
+; lcd_top:inst|display:display_u|par[8][13]                           ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
+; lcd_top:inst|display:display_u|par[8][9]                            ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
+; lcd_top:inst|display:display_u|par[8][5]                            ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
+; lcd_top:inst|display:display_u|par[8][1]                            ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
+; lcd_top:inst|display:display_u|par[8][12]                           ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
+; lcd_top:inst|display:display_u|par[8][10]                           ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
+; lcd_top:inst|display:display_u|par[8][8]                            ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
+; lcd_top:inst|display:display_u|par[8][6]                            ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
+; lcd_top:inst|display:display_u|par[8][4]                            ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
+; lcd_top:inst|display:display_u|par[8][2]                            ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
+; lcd_top:inst|display:display_u|par[8][0]                            ; Merged with lcd_top:inst|display:display_u|par[8][14]        ;
+; lcd_top:inst|display:display_u|cmd_cycle_end[13]                    ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[15] ;
+; lcd_top:inst|display:display_u|cmd_cycle[4]                         ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[4]  ;
+; lcd_top:inst|display:display_u|par[8][14]                           ; Merged with lcd_top:inst|display:display_u|par_enb[7]        ;
+; lcd_top:inst|display:display_u|par[7][15]                           ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
+; lcd_top:inst|display:display_u|par[7][13]                           ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
+; lcd_top:inst|display:display_u|par[7][11]                           ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
+; lcd_top:inst|display:display_u|par[7][9]                            ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
+; lcd_top:inst|display:display_u|par[7][7]                            ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
+; lcd_top:inst|display:display_u|par[7][3]                            ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
+; lcd_top:inst|display:display_u|par[7][5]                            ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
+; lcd_top:inst|display:display_u|par[7][1]                            ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
+; lcd_top:inst|display:display_u|par[7][12]                           ; Merged with lcd_top:inst|display:display_u|par[7][14]        ;
+; lcd_top:inst|display:display_u|par[7][0]                            ; Merged with lcd_top:inst|display:display_u|par[7][14]        ;
+; lcd_top:inst|display:display_u|par[7][8]                            ; Merged with lcd_top:inst|display:display_u|par[7][14]        ;
+; lcd_top:inst|display:display_u|par[7][10]                           ; Merged with lcd_top:inst|display:display_u|par[7][14]        ;
+; lcd_top:inst|display:display_u|par[7][2]                            ; Merged with lcd_top:inst|display:display_u|par[7][14]        ;
+; lcd_top:inst|display:display_u|par[7][6]                            ; Merged with lcd_top:inst|display:display_u|par[7][14]        ;
+; lcd_top:inst|display:display_u|cmd_cycle[2]                         ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[2]  ;
+; lcd_top:inst|display:display_u|par[7][14]                           ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
+; lcd_top:inst|display:display_u|par[7][4]                            ; Merged with lcd_top:inst|display:display_u|par_enb[6]        ;
+; lcd_top:inst|display:display_u|par[6][3]                            ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
+; lcd_top:inst|display:display_u|par[6][11]                           ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
+; lcd_top:inst|display:display_u|par[6][15]                           ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
+; lcd_top:inst|display:display_u|par[6][7]                            ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
+; lcd_top:inst|display:display_u|par[6][13]                           ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
+; lcd_top:inst|display:display_u|par[6][9]                            ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
+; lcd_top:inst|display:display_u|par[6][5]                            ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
+; lcd_top:inst|display:display_u|par[6][1]                            ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
+; lcd_top:inst|display:display_u|par[6][12]                           ; Merged with lcd_top:inst|display:display_u|par[6][14]        ;
+; lcd_top:inst|display:display_u|par[6][10]                           ; Merged with lcd_top:inst|display:display_u|par[6][14]        ;
+; lcd_top:inst|display:display_u|par[6][8]                            ; Merged with lcd_top:inst|display:display_u|par[6][14]        ;
+; lcd_top:inst|display:display_u|par[6][6]                            ; Merged with lcd_top:inst|display:display_u|par[6][14]        ;
+; lcd_top:inst|display:display_u|par[6][2]                            ; Merged with lcd_top:inst|display:display_u|par[6][14]        ;
+; lcd_top:inst|display:display_u|par[6][0]                            ; Merged with lcd_top:inst|display:display_u|par[6][14]        ;
+; lcd_top:inst|display:display_u|par[6][14]                           ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
+; lcd_top:inst|display:display_u|par[6][4]                            ; Merged with lcd_top:inst|display:display_u|par_enb[5]        ;
+; lcd_top:inst|display:display_u|par[5][3]                            ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
+; lcd_top:inst|display:display_u|par[5][11]                           ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
+; lcd_top:inst|display:display_u|par[5][7]                            ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
+; lcd_top:inst|display:display_u|par[5][13]                           ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
+; lcd_top:inst|display:display_u|par[5][9]                            ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
+; lcd_top:inst|display:display_u|par[5][5]                            ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
+; lcd_top:inst|display:display_u|par[5][1]                            ; Merged with lcd_top:inst|display:display_u|par[5][15]        ;
+; lcd_top:inst|display:display_u|par[5][12]                           ; Merged with lcd_top:inst|display:display_u|par[5][14]        ;
+; lcd_top:inst|display:display_u|par[5][10]                           ; Merged with lcd_top:inst|display:display_u|par[5][14]        ;
+; lcd_top:inst|display:display_u|par[5][8]                            ; Merged with lcd_top:inst|display:display_u|par[5][14]        ;
+; lcd_top:inst|display:display_u|par[5][6]                            ; Merged with lcd_top:inst|display:display_u|par[5][14]        ;
+; lcd_top:inst|display:display_u|par[5][2]                            ; Merged with lcd_top:inst|display:display_u|par[5][14]        ;
+; lcd_top:inst|display:display_u|par[5][0]                            ; Merged with lcd_top:inst|display:display_u|par[5][14]        ;
+; lcd_top:inst|display:display_u|par[5][15]                           ; Merged with lcd_top:inst|display:display_u|par_enb[4]        ;
+; lcd_top:inst|display:display_u|par[5][4]                            ; Merged with lcd_top:inst|display:display_u|par_enb[4]        ;
+; lcd_top:inst|display:display_u|par[5][14]                           ; Merged with lcd_top:inst|display:display_u|par_enb[4]        ;
+; lcd_top:inst|display:display_u|par[4][11]                           ; Merged with lcd_top:inst|display:display_u|par[4][15]        ;
+; lcd_top:inst|display:display_u|par[4][13]                           ; Merged with lcd_top:inst|display:display_u|par[4][15]        ;
+; lcd_top:inst|display:display_u|par[4][9]                            ; Merged with lcd_top:inst|display:display_u|par[4][15]        ;
+; lcd_top:inst|display:display_u|par[4][12]                           ; Merged with lcd_top:inst|display:display_u|par[4][14]        ;
+; lcd_top:inst|display:display_u|par[4][10]                           ; Merged with lcd_top:inst|display:display_u|par[4][14]        ;
+; lcd_top:inst|display:display_u|par[4][8]                            ; Merged with lcd_top:inst|display:display_u|par[4][14]        ;
+; lcd_top:inst|display:display_u|par[3][11]                           ; Merged with lcd_top:inst|display:display_u|par[3][15]        ;
+; lcd_top:inst|display:display_u|par[3][13]                           ; Merged with lcd_top:inst|display:display_u|par[3][15]        ;
+; lcd_top:inst|display:display_u|par[3][9]                            ; Merged with lcd_top:inst|display:display_u|par[3][15]        ;
+; lcd_top:inst|display:display_u|par[3][12]                           ; Merged with lcd_top:inst|display:display_u|par[3][14]        ;
+; lcd_top:inst|display:display_u|par[3][10]                           ; Merged with lcd_top:inst|display:display_u|par[3][14]        ;
+; lcd_top:inst|display:display_u|par[3][8]                            ; Merged with lcd_top:inst|display:display_u|par[3][14]        ;
+; lcd_top:inst|display:display_u|par[4][14]                           ; Merged with lcd_top:inst|display:display_u|par[4][15]        ;
+; lcd_top:inst|display:display_u|par[2][11]                           ; Merged with lcd_top:inst|display:display_u|par[2][15]        ;
+; lcd_top:inst|display:display_u|par[2][13]                           ; Merged with lcd_top:inst|display:display_u|par[2][15]        ;
+; lcd_top:inst|display:display_u|par[2][9]                            ; Merged with lcd_top:inst|display:display_u|par[2][15]        ;
+; lcd_top:inst|display:display_u|par[2][12]                           ; Merged with lcd_top:inst|display:display_u|par[2][14]        ;
+; lcd_top:inst|display:display_u|par[2][10]                           ; Merged with lcd_top:inst|display:display_u|par[2][14]        ;
+; lcd_top:inst|display:display_u|par[2][8]                            ; Merged with lcd_top:inst|display:display_u|par[2][14]        ;
+; lcd_top:inst|display:display_u|par[3][14]                           ; Merged with lcd_top:inst|display:display_u|par[3][15]        ;
+; lcd_top:inst|display:display_u|par[1][11]                           ; Merged with lcd_top:inst|display:display_u|par[1][15]        ;
+; lcd_top:inst|display:display_u|par[1][13]                           ; Merged with lcd_top:inst|display:display_u|par[1][15]        ;
+; lcd_top:inst|display:display_u|par[1][9]                            ; Merged with lcd_top:inst|display:display_u|par[1][15]        ;
+; lcd_top:inst|display:display_u|par[1][12]                           ; Merged with lcd_top:inst|display:display_u|par[1][14]        ;
+; lcd_top:inst|display:display_u|par[1][8]                            ; Merged with lcd_top:inst|display:display_u|par[1][14]        ;
+; lcd_top:inst|display:display_u|par[1][10]                           ; Merged with lcd_top:inst|display:display_u|par[1][14]        ;
+; lcd_top:inst|display:display_u|par[2][14]                           ; Merged with lcd_top:inst|display:display_u|par[2][15]        ;
+; lcd_top:inst|display:display_u|par[1][14]                           ; Merged with lcd_top:inst|display:display_u|par[1][15]        ;
+; lcd_top:inst|display:display_u|data_wr[9,11,13]                     ; Merged with lcd_top:inst|display:display_u|data_wr[15]       ;
+; lcd_top:inst|display:display_u|data_wr[8,10,12]                     ; Merged with lcd_top:inst|display:display_u|data_wr[14]       ;
+; lcd_top:inst|display:display_u|data_wr[14]                          ; Merged with lcd_top:inst|display:display_u|data_wr[15]       ;
+; lcd_top:inst|display:display_u|cmd_reg[7]                           ; Merged with lcd_top:inst|display:display_u|cmd_reg[6]        ;
+; lcd_top:inst|display:display_u|cmd_reg[5]                           ; Merged with lcd_top:inst|display:display_u|cmd_reg[3]        ;
+; lcd_top:inst|display:display_u|cmd_cycle_end[5,6]                   ; Merged with lcd_top:inst|display:display_u|cmd_cycle_end[4]  ;
+; lcd_top:inst|cmd2lcd:cmd2lcd_u|data_lcd_out[8,9,11..15]             ; Merged with lcd_top:inst|cmd2lcd:cmd2lcd_u|data_lcd_out[10]  ;
+; lcd_top:inst|display:display_u|cmd[7]                               ; Merged with lcd_top:inst|display:display_u|cmd[6]            ;
+; lcd_top:inst|display:display_u|cmd[5]                               ; Merged with lcd_top:inst|display:display_u|cmd[3]            ;
+; lcd_top:inst|display:display_u|par[1][3]                            ; Merged with lcd_top:inst|display:display_u|par[1][1]         ;
+; lcd_top:inst|display:display_u|par[1][5]                            ; Merged with lcd_top:inst|display:display_u|par[1][1]         ;
+; lcd_top:inst|display:display_u|par[1][7]                            ; Merged with lcd_top:inst|display:display_u|par[1][1]         ;
+; lcd_top:inst|display:display_u|par[1][2]                            ; Merged with lcd_top:inst|display:display_u|par[1][0]         ;
+; lcd_top:inst|display:display_u|par[1][6]                            ; Merged with lcd_top:inst|display:display_u|par[1][0]         ;
+; lcd_top:inst|display:display_u|par[2][1]                            ; Merged with lcd_top:inst|display:display_u|par[2][0]         ;
+; lcd_top:inst|display:display_u|par[2][2]                            ; Merged with lcd_top:inst|display:display_u|par[2][0]         ;
+; lcd_top:inst|display:display_u|par[2][3]                            ; Merged with lcd_top:inst|display:display_u|par[2][0]         ;
+; lcd_top:inst|display:display_u|par[2][5]                            ; Merged with lcd_top:inst|display:display_u|par[2][0]         ;
+; lcd_top:inst|display:display_u|par[2][6]                            ; Merged with lcd_top:inst|display:display_u|par[2][0]         ;
+; lcd_top:inst|display:display_u|par[2][7]                            ; Merged with lcd_top:inst|display:display_u|par[2][0]         ;
+; lcd_top:inst|display:display_u|par[3][1]                            ; Merged with lcd_top:inst|display:display_u|par[3][0]         ;
+; lcd_top:inst|display:display_u|par[3][2]                            ; Merged with lcd_top:inst|display:display_u|par[3][0]         ;
+; lcd_top:inst|display:display_u|par[3][3]                            ; Merged with lcd_top:inst|display:display_u|par[3][0]         ;
+; lcd_top:inst|display:display_u|par[3][5]                            ; Merged with lcd_top:inst|display:display_u|par[3][0]         ;
+; lcd_top:inst|display:display_u|par[3][6]                            ; Merged with lcd_top:inst|display:display_u|par[3][0]         ;
+; lcd_top:inst|display:display_u|par[3][7]                            ; Merged with lcd_top:inst|display:display_u|par[3][0]         ;
+; lcd_top:inst|display:display_u|par[4][1]                            ; Merged with lcd_top:inst|display:display_u|par[4][0]         ;
+; lcd_top:inst|display:display_u|par[4][2]                            ; Merged with lcd_top:inst|display:display_u|par[4][0]         ;
+; lcd_top:inst|display:display_u|par[4][3]                            ; Merged with lcd_top:inst|display:display_u|par[4][0]         ;
+; lcd_top:inst|display:display_u|par[4][5]                            ; Merged with lcd_top:inst|display:display_u|par[4][0]         ;
+; lcd_top:inst|display:display_u|par[4][6]                            ; Merged with lcd_top:inst|display:display_u|par[4][0]         ;
+; lcd_top:inst|display:display_u|par[4][7]                            ; Merged with lcd_top:inst|display:display_u|par[4][0]         ;
+; lcd_top:inst|display:display_u|ec_addr[1..3,5..7]                   ; Merged with lcd_top:inst|display:display_u|ec_addr[0]        ;
+; lcd_top:inst|display:display_u|cmd_cycle_end[15]                    ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|par_enb[4..7]                        ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|par[4][15]                           ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|par[3][15]                           ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|par[2][15]                           ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|par[1][15]                           ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|data_wr[15]                          ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|par[4][4]                            ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|cmd2lcd:cmd2lcd_u|data_lcd_out[10]                     ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|par[3][4]                            ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|par[2][4]                            ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|cmd_reg[6]                           ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|cmd[6]                               ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|lut_data_buf[7]                      ; Stuck at GND due to stuck port data_in                       ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|state_reg.idle   ; Lost fanout                                                  ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|state.MOVE           ; Lost fanout                                                  ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|state.CLEAR          ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|state.IDLE           ; Stuck at GND due to stuck port clear                         ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|state.DRAW           ; Lost fanout                                                  ;
+; mouse:inst2|state_reg.init1                                         ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|state_reg.init2                                         ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|state_reg.init3                                         ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|state_reg.pack1                                         ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|state_reg.pack2                                         ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|state_reg.pack3                                         ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|state_reg.done                                          ; Lost fanout                                                  ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|state_reg.load   ; Lost fanout                                                  ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|state_reg.idle   ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|state_reg.rts    ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|state_reg.start  ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|state_reg.data   ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|state_reg.stop   ; Stuck at GND due to stuck port clear                         ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|state_reg.dps    ; Stuck at GND due to stuck port clear                         ;
+; lcd_top:inst|display:display_u|dpy_sta.DPY_CHK_BUFNUMB              ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|dpy_sta.DPY_NOP                      ; Stuck at GND due to stuck port data_in                       ;
+; lcd_top:inst|display:display_u|lut_data_buf[6]                      ; Stuck at GND due to stuck port data_in                       ;
+; Total Number of Removed Registers = 372                             ;                                                              ;
++---------------------------------------------------------------------+--------------------------------------------------------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                                                                                                  ;
-+-----------------------------------------------+---------------------------+----------------------------------------------------------------------------------+
-; Register name                                 ; Reason for Removal        ; Registers Removed due to This Register                                           ;
-+-----------------------------------------------+---------------------------+----------------------------------------------------------------------------------+
-; lcd_top:inst|display:display_u|frame_upd_keep ; Stuck at GND              ; lcd_top:inst|display:display_u|sp_addr[15],                                      ;
-;                                               ; due to stuck port data_in ; lcd_top:inst|display:display_u|sp_addr[14],                                      ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[13],                                      ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[12],                                      ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[11],                                      ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[10],                                      ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[9],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[8],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[7],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[6],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[5],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[4],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[3],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[2],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[1],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|sp_addr[0],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[15],                                      ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[14],                                      ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[13],                                      ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[12],                                      ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[11],                                      ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[10],                                      ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[9],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[8],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[7],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[6],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[5],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[4],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[3],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[2],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[1],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|ep_addr[0],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|cmd_reg[6], lcd_top:inst|display:display_u|cmd[6] ;
-; lcd_top:inst|display:display_u|par_enb[7]     ; Stuck at GND              ; lcd_top:inst|display:display_u|par_enb[6],                                       ;
-;                                               ; due to stuck port data_in ; lcd_top:inst|display:display_u|par_enb[5],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|par_enb[4],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|par[4][15],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|par[3][15],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|par[2][15],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|par[1][15],                                       ;
-;                                               ;                           ; lcd_top:inst|display:display_u|data_wr[15],                                      ;
-;                                               ;                           ; lcd_top:inst|cmd2lcd:cmd2lcd_u|data_lcd_out[10]                                  ;
-; lcd_top:inst|display:display_u|sc_addr[4]     ; Stuck at GND              ; lcd_top:inst|display:display_u|par[2][4]                                         ;
-;                                               ; due to stuck port data_in ;                                                                                  ;
-; lcd_top:inst|display:display_u|ec_addr[12]    ; Stuck at GND              ; lcd_top:inst|display:display_u|par[3][4]                                         ;
-;                                               ; due to stuck port data_in ;                                                                                  ;
-; lcd_top:inst|display:display_u|ec_addr[4]     ; Stuck at GND              ; lcd_top:inst|display:display_u|par[4][4]                                         ;
-;                                               ; due to stuck port data_in ;                                                                                  ;
-+-----------------------------------------------+---------------------------+----------------------------------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                                                                          ;
++------------------------------------------------------------------+---------------------------+---------------------------------------------------------------------------------------+
+; Register name                                                    ; Reason for Removal        ; Registers Removed due to This Register                                                ;
++------------------------------------------------------------------+---------------------------+---------------------------------------------------------------------------------------+
+; lcd_top:inst|display:display_u|frame_upd_keep                    ; Stuck at GND              ; lcd_top:inst|display:display_u|sp_addr[15],                                           ;
+;                                                                  ; due to stuck port data_in ; lcd_top:inst|display:display_u|sp_addr[14],                                           ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[13],                                           ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[12],                                           ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[11],                                           ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[10],                                           ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[9],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[8],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[7],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[6],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[5],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[4],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[3],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[2],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[1],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|sp_addr[0],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[15],                                           ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[14],                                           ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[13],                                           ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[12],                                           ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[11],                                           ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[10],                                           ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[9],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[8],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[7],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[6],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[5],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[4],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[3],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[2],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[1],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|ep_addr[0],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|cmd_reg[6], lcd_top:inst|display:display_u|cmd[6]      ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|filter_reg[7] ; Stuck at GND              ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|filter_reg[6],                     ;
+;                                                                  ; due to stuck port clear   ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|filter_reg[5],                     ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|filter_reg[4],                     ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|filter_reg[3],                     ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|filter_reg[2],                     ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|filter_reg[1],                     ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|filter_reg[0],                     ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|f_ps2c_reg,                        ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|n_reg[3],                          ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|n_reg[2],                          ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|n_reg[1],                          ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|n_reg[0]                           ;
+; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|filter_reg[7] ; Stuck at GND              ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|filter_reg[6],                     ;
+;                                                                  ; due to stuck port clear   ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|filter_reg[5],                     ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|filter_reg[4],                     ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|filter_reg[3],                     ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|filter_reg[2],                     ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|filter_reg[1],                     ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|filter_reg[0],                     ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|f_ps2c_reg,                        ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|n_reg[3],                          ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|n_reg[2],                          ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|n_reg[1],                          ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|n_reg[0]                           ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|y[8]              ; Stuck at GND              ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[8],                           ;
+;                                                                  ; due to stuck port clear   ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[7],                           ;
+;                                                                  ;                           ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[6],                           ;
+;                                                                  ;                           ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[5],                           ;
+;                                                                  ;                           ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[4],                           ;
+;                                                                  ;                           ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[3],                           ;
+;                                                                  ;                           ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[2],                           ;
+;                                                                  ;                           ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[1],                           ;
+;                                                                  ;                           ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_y[0]                            ;
+; lcd_top:inst|display:display_u|par_enb[7]                        ; Stuck at GND              ; lcd_top:inst|display:display_u|par_enb[6],                                            ;
+;                                                                  ; due to stuck port data_in ; lcd_top:inst|display:display_u|par_enb[5],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|par_enb[4],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|par[4][15],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|par[3][15],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|par[2][15],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|par[1][15],                                            ;
+;                                                                  ;                           ; lcd_top:inst|display:display_u|data_wr[15],                                           ;
+;                                                                  ;                           ; lcd_top:inst|cmd2lcd:cmd2lcd_u|data_lcd_out[10]                                       ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|x[7]              ; Stuck at GND              ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_x[7],                           ;
+;                                                                  ; due to stuck port clear   ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_x[6],                           ;
+;                                                                  ;                           ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_x[5],                           ;
+;                                                                  ;                           ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_x[4],                           ;
+;                                                                  ;                           ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_x[3],                           ;
+;                                                                  ;                           ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_x[2],                           ;
+;                                                                  ;                           ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_x[1],                           ;
+;                                                                  ;                           ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|target_x[0]                            ;
+; mouse:inst2|state_reg.init1                                      ; Stuck at GND              ; mouse:inst2|state_reg.init2, mouse:inst2|state_reg.pack1,                             ;
+;                                                                  ; due to stuck port clear   ; mouse:inst2|state_reg.pack2, mouse:inst2|state_reg.pack3, mouse:inst2|state_reg.done, ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit|state_reg.load,                    ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|state_reg.idle,                    ;
+;                                                                  ;                           ; mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|state_reg.start                    ;
+; lcd_top:inst|display:display_u|sc_addr[4]                        ; Stuck at GND              ; lcd_top:inst|display:display_u|par[2][4]                                              ;
+;                                                                  ; due to stuck port data_in ;                                                                                       ;
+; lcd_top:inst|display:display_u|ec_addr[12]                       ; Stuck at GND              ; lcd_top:inst|display:display_u|par[3][4]                                              ;
+;                                                                  ; due to stuck port data_in ;                                                                                       ;
+; lcd_top:inst|display:display_u|ec_addr[4]                        ; Stuck at GND              ; lcd_top:inst|display:display_u|par[4][4]                                              ;
+;                                                                  ; due to stuck port data_in ;                                                                                       ;
+; frame_buffer:inst3|frame_buffer_ctrl:core_inst|state.IDLE        ; Stuck at GND              ; frame_buffer:inst3|frame_buffer_ctrl:core_inst|state.DRAW                             ;
+;                                                                  ; due to stuck port clear   ;                                                                                       ;
++------------------------------------------------------------------+---------------------------+---------------------------------------------------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -832,25 +994,27 @@ Encoding Type:  One-Hot
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                             ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------+
-; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                   ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------+
-; 3:1                ; 11 bits   ; 22 LEs        ; 11 LEs               ; 11 LEs                 ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|cmd_cycle_end[1] ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|par_enb[3]       ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|par[1][1]        ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|par_enb[0]       ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|data_wr[7]       ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|lut_data_buf[6]  ;
-; 3:1                ; 16 bits   ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |graphic_pad|lcd_top:inst|cmd2lcd:cmd2lcd_u|phase_cnt[2]     ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |graphic_pad|lcd_top:inst|cmd2lcd:cmd2lcd_u|cycle_cnt[6]     ;
-; 8:1                ; 16 bits   ; 80 LEs        ; 16 LEs               ; 64 LEs                 ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|cmd_cnt[14]      ;
-; 15:1               ; 6 bits    ; 60 LEs        ; 24 LEs               ; 36 LEs                 ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|cmd_reg[6]       ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |graphic_pad|lcd_top:inst|cmd2lcd:cmd2lcd_u|data_lcd_out[2]  ;
-; 10:1               ; 4 bits    ; 24 LEs        ; 20 LEs               ; 4 LEs                  ; No         ; |graphic_pad|lcd_top:inst|cmd2lcd:cmd2lcd_u|Selector5        ;
-; 12:1               ; 2 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |graphic_pad|lcd_top:inst|cmd2lcd:cmd2lcd_u|Selector4        ;
-+--------------------+-----------+---------------+----------------------+------------------------+------------+--------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Multiplexer Restructuring Statistics (Restructuring Performed)                                                                                                                           ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------+
+; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                                 ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------+
+; 3:1                ; 11 bits   ; 22 LEs        ; 11 LEs               ; 11 LEs                 ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|cmd_cycle_end[0]               ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|par_enb[3]                     ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|par[3][0]                      ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|par_enb[0]                     ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|data_wr[4]                     ;
+; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|lut_data_buf[6]                ;
+; 3:1                ; 16 bits   ; 32 LEs        ; 16 LEs               ; 16 LEs                 ; Yes        ; |graphic_pad|lcd_top:inst|cmd2lcd:cmd2lcd_u|phase_cnt[0]                   ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |graphic_pad|lcd_top:inst|cmd2lcd:cmd2lcd_u|cycle_cnt[5]                   ;
+; 8:1                ; 16 bits   ; 80 LEs        ; 16 LEs               ; 64 LEs                 ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|cmd_cnt[11]                    ;
+; 15:1               ; 6 bits    ; 60 LEs        ; 24 LEs               ; 36 LEs                 ; Yes        ; |graphic_pad|lcd_top:inst|display:display_u|cmd_reg[4]                     ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 16 LEs               ; 0 LEs                  ; Yes        ; |graphic_pad|lcd_top:inst|cmd2lcd:cmd2lcd_u|data_lcd_out[0]                ;
+; 6:1                ; 5 bits    ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; No         ; |graphic_pad|mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit|Selector24 ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; No         ; |graphic_pad|mouse:inst2|Selector0                                         ;
+; 10:1               ; 4 bits    ; 24 LEs        ; 20 LEs               ; 4 LEs                  ; No         ; |graphic_pad|lcd_top:inst|cmd2lcd:cmd2lcd_u|Selector3                      ;
+; 12:1               ; 2 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; No         ; |graphic_pad|lcd_top:inst|cmd2lcd:cmd2lcd_u|Selector2                      ;
++--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------------------------------------------------------+
 
 
 +-------------------------------------------------------+
@@ -1340,6 +1504,18 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------+-------------------------------------+
 
 
++------------------------------------------------------------+
+; Port Connectivity Checks: "mouse:inst2|PS_2_rxtx:ps2_unit" ;
++-----------+-------+----------+-----------------------------+
+; Port      ; Type  ; Severity ; Details                     ;
++-----------+-------+----------+-----------------------------+
+; din[7..4] ; Input ; Info     ; Stuck at VCC                ;
+; din[1..0] ; Input ; Info     ; Stuck at GND                ;
+; din[3]    ; Input ; Info     ; Stuck at GND                ;
+; din[2]    ; Input ; Info     ; Stuck at VCC                ;
++-----------+-------+----------+-----------------------------+
+
+
 +---------------------------------------------------------------------------------------------------------------------+
 ; Port Connectivity Checks: "lcd_top:inst|display:display_u"                                                          ;
 +-----------+--------+----------+-------------------------------------------------------------------------------------+
@@ -1392,7 +1568,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:02     ;
+; Top            ; 00:00:01     ;
 +----------------+--------------+
 
 
@@ -1620,10 +1796,31 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 18.1.0 Build 625 09/12/2018 SJ Lite Edition
-    Info: Processing started: Wed Nov 04 22:54:47 2026
+    Info: Processing started: Mon Nov 09 18:15:49 2026
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off graphic_pad -c graphic_pad
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 16 of the 16 processors detected
+Info (12021): Found 2 design units, including 1 entities, in source file /users/anatelly/documents/fpga_project/graphic_pad/src/frame_buf/frame_buffer_ram.vhd
+    Info (12022): Found design unit 1: frame_buffer_ram-rtl File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/frame_buf/frame_buffer_ram.vhd Line: 16
+    Info (12023): Found entity 1: frame_buffer_ram File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/frame_buf/frame_buffer_ram.vhd Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file /users/anatelly/documents/fpga_project/graphic_pad/src/frame_buf/frame_buffer_ctrl.vhd
+    Info (12022): Found design unit 1: frame_buffer_ctrl-rtl File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/frame_buf/frame_buffer_ctrl.vhd Line: 26
+    Info (12023): Found entity 1: frame_buffer_ctrl File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/frame_buf/frame_buffer_ctrl.vhd Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file /users/anatelly/documents/fpga_project/graphic_pad/src/frame_buf/frame_buffer.vhd
+    Info (12022): Found design unit 1: frame_buffer-rtl File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/frame_buf/frame_buffer.vhd Line: 22
+    Info (12023): Found entity 1: frame_buffer File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/frame_buf/frame_buffer.vhd Line: 4
+Info (12021): Found 2 design units, including 1 entities, in source file /users/anatelly/documents/fpga_project/graphic_pad/src/mouse/ps_2_tx.vhd
+    Info (12022): Found design unit 1: PS_2_tx-rtl File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/PS_2_tx.vhd Line: 24
+    Info (12023): Found entity 1: PS_2_tx File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/PS_2_tx.vhd Line: 11
+Info (12021): Found 2 design units, including 1 entities, in source file /users/anatelly/documents/fpga_project/graphic_pad/src/mouse/ps_2_rxtx.vhd
+    Info (12022): Found design unit 1: PS_2_rxtx-arch File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/PS_2_rxtx.vhd Line: 18
+    Info (12023): Found entity 1: PS_2_rxtx File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/PS_2_rxtx.vhd Line: 4
+Info (12021): Found 2 design units, including 1 entities, in source file /users/anatelly/documents/fpga_project/graphic_pad/src/mouse/ps_2_rx.vhd
+    Info (12022): Found design unit 1: PS_2_rx-rtl File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/PS_2_rx.vhd Line: 20
+    Info (12023): Found entity 1: PS_2_rx File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/PS_2_rx.vhd Line: 8
+Info (12021): Found 2 design units, including 1 entities, in source file /users/anatelly/documents/fpga_project/graphic_pad/src/mouse/mouse.vhd
+    Info (12022): Found design unit 1: mouse-arch File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/mouse.vhd Line: 18
+    Info (12023): Found entity 1: mouse File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/mouse.vhd Line: 5
 Info (12021): Found 2 design units, including 1 entities, in source file /users/anatelly/documents/fpga_project/graphic_pad/src/lcd/rgb_test_simple.vhd
     Info (12022): Found design unit 1: rgb_test_simple-rtl File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/lcd/rgb_test_simple.vhd Line: 32
     Info (12023): Found entity 1: rgb_test_simple File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/lcd/rgb_test_simple.vhd Line: 5
@@ -1645,6 +1842,8 @@ Info (12021): Found 2 design units, including 1 entities, in source file pll_gen
     Info (12022): Found design unit 1: pll_gen-SYN File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/quartus/pll_gen.vhd Line: 53
     Info (12023): Found entity 1: pll_gen File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/quartus/pll_gen.vhd Line: 42
 Info (12127): Elaborating entity "graphic_pad" for the top level hierarchy
+Warning (275013): Port "clk" of type mouse and instance "inst2" is missing source signal
+Warning (275013): Port "clk" of type frame_buffer and instance "inst3" is missing source signal
 Info (12128): Elaborating entity "lcd_top" for hierarchy "lcd_top:inst"
 Warning (10036): Verilog HDL or VHDL warning at lcd_top.vhd(81): object "sleep_off" assigned a value but never read File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/lcd/lcd_top.vhd Line: 81
 Info (12128): Elaborating entity "cmd2lcd" for hierarchy "lcd_top:inst|cmd2lcd:cmd2lcd_u" File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/lcd/lcd_top.vhd Line: 183
@@ -1712,6 +1911,13 @@ Info (12133): Instantiated megafunction "pll_gen:pll|altpll:altpll_component" wi
 Info (12021): Found 1 design units, including 1 entities, in source file db/pll_gen_altpll.v
     Info (12023): Found entity 1: pll_gen_altpll File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/quartus/db/pll_gen_altpll.v Line: 30
 Info (12128): Elaborating entity "pll_gen_altpll" for hierarchy "pll_gen:pll|altpll:altpll_component|pll_gen_altpll:auto_generated" File: c:/intelfpga_lite/18.1/quartus/libraries/megafunctions/altpll.tdf Line: 897
+Info (12128): Elaborating entity "mouse" for hierarchy "mouse:inst2"
+Info (12128): Elaborating entity "PS_2_rxtx" for hierarchy "mouse:inst2|PS_2_rxtx:ps2_unit" File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/mouse.vhd Line: 49
+Info (12128): Elaborating entity "PS_2_rx" for hierarchy "mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_rx:ps2_rx_unit" File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/PS_2_rxtx.vhd Line: 25
+Info (12128): Elaborating entity "PS_2_tx" for hierarchy "mouse:inst2|PS_2_rxtx:ps2_unit|PS_2_tx:ps2_tx_unit" File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/mouse/PS_2_rxtx.vhd Line: 36
+Info (12128): Elaborating entity "frame_buffer" for hierarchy "frame_buffer:inst3"
+Info (12128): Elaborating entity "frame_buffer_ctrl" for hierarchy "frame_buffer:inst3|frame_buffer_ctrl:core_inst" File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/frame_buf/frame_buffer.vhd Line: 28
+Info (12128): Elaborating entity "frame_buffer_ram" for hierarchy "frame_buffer:inst3|frame_buffer_ram:ram_inst" File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/src/frame_buf/frame_buffer.vhd Line: 44
 Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_ua24.tdf
     Info (12023): Found entity 1: altsyncram_ua24 File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/quartus/db/altsyncram_ua24.tdf Line: 27
 Info (12021): Found 1 design units, including 1 entities, in source file db/mux_rsc.tdf
@@ -1734,7 +1940,7 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/cmpr
     Info (12023): Found entity 1: cmpr_ngc File: C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/quartus/db/cmpr_ngc.tdf Line: 22
 Info (12033): Analysis and Synthesis generated Signal Tap or debug node instance "auto_signaltap_0"
 Info (11170): Starting IP generation for the debug fabric: alt_sld_fab.
-Info (11172): 2026.11.04.23:55:25 Progress: Loading sld3a5c722d/alt_sld_fab_wrapper_hw.tcl
+Info (11172): 2026.11.09.19:16:09 Progress: Loading sld3a5c722d/alt_sld_fab_wrapper_hw.tcl
 Info (11172): Alt_sld_fab.alt_sld_fab: SLD fabric agents which did not specify prefer_host were connected to JTAG
 Info (11172): Alt_sld_fab: Generating alt_sld_fab "alt_sld_fab" for QUARTUS_SYNTH
 Info (11172): Alt_sld_fab: "alt_sld_fab" instantiated alt_sld_fab "alt_sld_fab"
@@ -1763,6 +1969,7 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "rdn" is stuck at VCC
     Warning (13410): Pin "lcd_on" is stuck at VCC
 Info (286031): Timing-Driven Synthesis is running on partition "Top"
+Info (17049): 5 registers lost all their fanouts during netlist optimizations.
 Critical Warning (35025): Partially connected in-system debug instance "auto_signaltap_0" to 33 of its 210 required data inputs, trigger inputs, acquisition clocks, and dynamic pins.  There were 0 illegal, 0 inaccessible, and 177 missing sources or connections.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
@@ -1773,10 +1980,10 @@ Info (21057): Implemented 2189 device resources after synthesis - the final reso
     Info (21061): Implemented 2099 logic cells
     Info (21064): Implemented 60 RAM segments
     Info (21065): Implemented 1 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 6 warnings
-    Info: Peak virtual memory: 4923 megabytes
-    Info: Processing ended: Wed Nov 04 22:55:49 2026
-    Info: Elapsed time: 00:01:02
-    Info: Total CPU time (on all processors): 00:01:54
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 8 warnings
+    Info: Peak virtual memory: 4912 megabytes
+    Info: Processing ended: Mon Nov 09 18:16:20 2026
+    Info: Elapsed time: 00:00:31
+    Info: Total CPU time (on all processors): 00:00:57
 
 

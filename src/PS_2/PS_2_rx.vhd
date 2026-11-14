@@ -30,17 +30,18 @@ signal filter_reg : std_logic_vector(7 downto 0);
 signal filter_next : std_logic_vector(7 downto 0);
 signal f_ps2c_reg : std_logic;
 signal f_ps2c_next : std_logic;
-signal n_reg : std_logic_vector(3 downto 0);
-signal n_next : std_logic_vector(3 downto 0);
+signal n_reg : unsigned(3 downto 0);
+signal n_next : unsigned(3 downto 0);
 signal b_reg : std_logic_vector(10 downto 0);
 signal b_next : std_logic_vector(10 downto 0);
-signal fall_edge : std_logic; -- Импульс, фиксирующий спадающий фронт линии тактов мыши
+signal fall_edge : std_logic;
 
 begin
 
+
 	process(clk, reset)
 	begin
-		if reset = '0' then
+		if reset = '1' then
 			filter_reg <= (others => '0');
 			f_ps2c_reg <= '0';
 		elsif rising_edge(clk) then
@@ -57,7 +58,7 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 
 	process(clk, reset)
 	begin
-		if reset = '0' then
+		if reset = '1' then
 			state_reg <= idle;
 			n_reg <= (others => '0');
 			b_reg <= (others => '0');
@@ -72,10 +73,10 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 	-- КОНЕЧНЫЙ АВТОМАТ ПРИЕМА КАДРА PS/2 (FSM)
 ------------------------------------------------------------------
 	
-	process(all)
+	process(state_reg, n_reg, b_reg, fall_edge, rx_en, ps2d)
 	begin
-		state_next <= state_reg;
 		rx_done_tick <= '0';
+		state_next <= state_reg;
       n_next <= n_reg;
       b_next <= b_reg;
 		
@@ -87,20 +88,19 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 							state_next <= dps;
 						end if;
 					
-					when dps =>
+					when dps => -- 8 битов данных, 1 бит четности, 1 стоповый бит
 						if fall_edge = '1' then
 							b_next <= ps2d & b_reg(10 downto 1);
-							if n_reg = "0000" then
+							if n_reg = 0 then
 								state_next <= load;
 							else
-								n_next <= std_logic_vector((unsigned(n_reg)) - 1);
+								n_next <= n_reg - 1;
 							end if;
 						end if;
 						
 					when load =>
 							state_next <= idle;
 							rx_done_tick <= '1';
-						
 					when others =>
 						state_next <= idle;
 				
@@ -108,7 +108,7 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 					
 	end process;
 	
-dout <= b_reg(8 downto 1);
+dout <= b_reg(8 downto 1); -- 8 битов данных
 	
 end architecture;
 	

@@ -6,21 +6,20 @@ entity mouse is
 	port(
 		clk : in std_logic;
 		reset : in std_logic;
-		ps2d : inout std_logic; -- Тактовые импульсы на мышь
-		ps2c : inout std_logic; -- Линия данных на мышь
-		xm : out std_logic_vector(8 downto 0); -- Положение курсора мыши X
-		ym : out std_logic_vector(8 downto 0); -- Положение курсора мыши Y
-		data_update   : out std_logic; -- Строб обновления данных
-		left_button   : out std_logic; --Вывод информации о нажатии левой кнопки мыши
-		right_button  : out std_logic --Вывод информации о нажатии правой кнопки мыши
+		ps2d : inout std_logic; -- Линия данных мыши
+		ps2c : inout std_logic; -- Тактовый импульс мыши
+		xm : out std_logic_vector(8 downto 0); -- Положение курсора X
+		ym : out std_logic_vector(8 downto 0); -- Положение курсора Y
+		btnm : out std_logic_vector(2 downto 0); -- Кнопки: левая, правая, средняя
+		data_update : out std_logic
 	);
 end entity; 
 
 architecture arch of mouse is
 
-constant MOUSE_RESET   : std_logic_vector(7 downto 0) := x"FF";
-constant MOUSE_ENABLE  : std_logic_vector(7 downto 0) := x"F4";
-constant MOUSE_ACK    : std_logic_vector(7 downto 0) := x"FA";
+--constant MOUSE_RESET : std_logic_vector(7 downto 0) := "11111111";
+constant MOUSE_ENABLE : std_logic_vector(7 downto 0) := "11110100";
+constant MOUSE_ACK : std_logic_vector(7 downto 0) := "11111010";
 
 type state_type is (init1, init2, init3, pack1, pack2, pack3, done);
 signal state_reg, state_next : state_type;
@@ -29,27 +28,23 @@ signal rx_data : std_logic_vector(7 downto 0);
 signal wr_ps2 : std_logic;
 signal rx_done_tick : std_logic;
 signal tx_done_tick : std_logic;
+signal x_reg : std_logic_vector(8 downto 0);
+signal y_reg : std_logic_vector(8 downto 0);
+signal x_next : std_logic_vector(8 downto 0);
+signal y_next : std_logic_vector(8 downto 0);
 signal btn_reg : std_logic_vector(2 downto 0);
 signal btn_next : std_logic_vector(2 downto 0);
-signal x_sign : std_logic;
-signal y_sign : std_logic;
--- Диапазон координат ограничен экраном монитора
-signal x_reg : integer range 0 to 239;
-signal x_next : integer range 0 to 239;
-signal y_reg : integer range 0 to 319;
-signal y_next : integer range 0 to 319;
-signal update_tick : std_logic; -- Строб для вывода обновления
--- Сигналы для расчета изменения координат
-signal change_x : integer range -256 to 255;
-signal change_y : integer range -256 to 255;
-signal new_x : integer;
-signal new_y : integer;
-
+signal overflow_x_next : std_logic;
+signal overflow_y_next : std_logic;
+signal overflow_x_reg : std_logic;
+signal overflow_y_reg : std_logic;
+signal data_update_next : std_logic;
+signal data_update_reg : std_logic;
 
 begin
 
  -----------------------------------------------------------------
-    -- Инициализация приемопередатчика ps2_rxtx
+    -- Инициализация ps2_rxtx
  -----------------------------------------------------------------
 
 ps2_unit : entity work.PS_2_rxtx
@@ -65,116 +60,100 @@ ps2_unit : entity work.PS_2_rxtx
 		dout => rx_data
 		);
 
-change_x <= to_integer(signed(rx_data)) - 256 when x_sign = '1' else to_integer(unsigned(rx_data));
-change_y <= to_integer(signed(rx_data)) - 256 when y_sign = '1' else to_integer(unsigned(rx_data));
-
-new_x <= x_reg + change_x;
-new_y <= y_reg + change_y;
-
 -----------------------------------------------------------------
     -- Регистры состояний и данных FSMD (Синхронный блок)
 -----------------------------------------------------------------
 
 	process(clk, reset)
 	begin
-		if reset = '0' then
+		if reset = '1' then
 			state_reg <= init1;
-			x_reg <= 0;
-			y_reg <= 0;
+			x_reg <= (others => '0');
+			y_reg <= (others => '0');
 			btn_reg <= (others => '0');
-			x_sign <= '0';
-			y_sign <= '0';
+			overflow_x_reg <= '0';
+			overflow_y_reg <= '0';
+			data_update_reg <= '0';
 		elsif rising_edge(clk) then
 			state_reg <= state_next;
 			x_reg <= x_next;
 			y_reg <= y_next;
 			btn_reg <= btn_next;
-			if state_reg = pack1 and rx_done_tick = '1' then
-				y_sign <= rx_data(5);
-				x_sign <= rx_data(4);
-			end if;
+			overflow_x_reg <= overflow_x_next;
+			overflow_y_reg <= overflow_y_next;
+			data_update_reg <= data_update_next;
 		end if;
 	end process;
 
----------------------------------------
-    -- Регистры состояний и данных FSMD
----------------------------------------
+-----------------------------------------------------------------
+    -- Регистры состояний и данных FSMD (Синхронный блок)
+-----------------------------------------------------------------
 	
-	process(all)
+	process(state_reg, rx_done_tick, tx_done_tick, x_reg, y_reg, btn_reg, rx_data, overflow_x_reg, overflow_y_reg)
 	begin
 	-- Назначения по умолчанию для предотвращения генерации защелок
 		state_next <= state_reg;
-		wr_ps2 <= '0';
-      update_tick <= '0';
       x_next <= x_reg;
       y_next <= y_reg;
       btn_next <= btn_reg;
+		overflow_x_next <= overflow_x_reg;
+		overflow_y_next <= overflow_y_reg;
+		data_update_next <= data_update_reg;
+		wr_ps2 <= '0';
 		
 			case state_reg is
 				when init1 =>
 					wr_ps2 <= '1';
 					state_next <= init2;
 					
-				when init2 =>
-					if rx_done_tick = '1' then
+				when init2 => -- Ожидание завершения отправки
+					if tx_done_tick = '1' then
 						state_next <= init3;
 					end if;
 
 				when init3 => -- Ожидание пакета подтверждения (ACK)
 					if rx_done_tick = '1' then
-						state_next <= pack1;
+						if rx_data = MOUSE_ACK then
+							state_next <= pack1;
+						end if;
 					end if;
-
 
 				when pack1 => -- Ожидание 1-го пакета данных (флаги, знаковые биты, кнопки)
 					if rx_done_tick = '1' then
-						state_next <= pack2;
---						y_next(8) <= rx_data(5); -- Знаковый бит Y
---						x_next(8) <= rx_data(4); -- Знаковый бит X
-						btn_next <= rx_data(2 downto 0); -- Кнопки: Средняя, Правая, Левая
-					end if;
-
-				-- Ожидание 2-го пакета данных (смещение по X)
-				when pack2 =>
-					if rx_done_tick = '1' then
-						state_next <= pack3;
-						-- Накапливаем координаты только если зажата ЛЕВАЯ или ПРАВАЯ кнопка
-						if btn_reg(0) = '1' or btn_reg(1) = '1' then
-							-- Ограничиваем края экрана LT24 по оси X (0..239)
-							if new_x < 0 then
-								x_next <= 0;
-							elsif new_x > 239 then
-								x_next <= 239;
-							else
-								x_next <= new_x;
-							end if;
+						if rx_data(3) = '1' then
+							btn_next <= rx_data(2 downto 0); -- Кнопки: Средняя, Правая, Левая
+							x_next(8) <= rx_data(4); -- Знаковый бит X
+							y_next(8) <= rx_data(5); -- Знаковый бит Y
+							overflow_x_next <= rx_data(6); -- Переполнение X
+							overflow_y_next <= rx_data(7); -- Переполнение Y
+							state_next <= pack2;
 						end if;
 					end if;
+
+				when pack2 => -- Ожидание 2-го пакета данных (смещение по X)
+					if rx_done_tick = '1' then
+						if overflow_x_next = '1' then
+							x_next(7 downto 0) <= (others => '1');
+						else
+							x_next(7 downto 0) <= rx_data;	
+						end if;
+						state_next <= pack3;
+				end if;
 
 				when pack3 => -- Ожидание 3-го пакета данных (смещение по Y)
 					if rx_done_tick = '1' then
-					state_next <= done;
-					-- Накапливаем координаты только если зажата ЛЕВАЯ или ПРАВАЯ кнопка
-					if btn_reg(0) = '1' or btn_reg(1) = '1' then
-						-- Ограничиваем края экрана LT24 по оси Y (0..319)
-						if new_y < 0 then
-							y_next <= 0;
-						elsif new_y > 319 then
-							y_next <= 319;
+						if overflow_y_next = '1' then
+							y_next(7 downto 0) <= (others => '1');
 						else
-							y_next <= new_y;
+							y_next(7 downto 0) <= rx_data;
 						end if;
+						state_next <= done;
 					end if;
-				end if;
-
+					
 				when done =>
-					if btn_reg(0) = '1' or btn_reg(1) = '1' then
-						update_tick <= '1'; -- Строб генерируется только при нажатой кнопке
-					end if;
+					data_update_next <= '1';
 					state_next <= pack1;
-
-				when others =>
-					state_next <= init1;
+				
 					
 			end case;
 	end process;
@@ -183,11 +162,10 @@ new_y <= y_reg + change_y;
     -- Назначение выходных сигналов
 -----------------------------------------------------------------
 	
-xm <= std_logic_vector(to_unsigned(x_reg, 9));
-ym <= std_logic_vector(to_unsigned(y_reg, 9));
-data_update <= update_tick;
+xm <= x_reg;
+ym <= y_reg;
+btnm <= btn_reg;
+data_update <= data_update_reg;
 
-left_button  <= btn_reg(0);
-right_button <= btn_reg(1);
 
 end architecture;

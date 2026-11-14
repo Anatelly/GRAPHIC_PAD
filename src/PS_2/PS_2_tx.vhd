@@ -2,6 +2,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+library altera;
+use altera.altera_primitives_components.all;
+
 -- Модуль передатчика PS/2 (Хост -> Устройство).
 -- Используется для отправки команд управления (например, включения мыши x"F4").
 
@@ -32,12 +35,12 @@ signal filter_reg : std_logic_vector(7 downto 0);
 signal filter_next : std_logic_vector(7 downto 0);
 signal f_ps2c_reg : std_logic;
 signal f_ps2c_next : std_logic;
-signal n_reg : std_logic_vector(3 downto 0); -- Счетчик переданных бит (всего 8 бит данных + 1 бит четности)
-signal n_next : std_logic_vector(3 downto 0); --
+signal n_reg : unsigned(3 downto 0); -- Счетчик переданных бит (всего 8 бит данных + 1 бит четности)
+signal n_next : unsigned(3 downto 0); --
 signal b_reg : std_logic_vector(8 downto 0); -- Сдвиговый регистр для передачи бит в линию
 signal b_next : std_logic_vector(8 downto 0); -- 
-signal c_reg : std_logic_vector(12 downto 0); -- Счетчик задержки (таймер) для удержания линии тактов в состоянии rts
-signal c_next : std_logic_vector(12 downto 0); --
+signal c_reg : unsigned(12 downto 0); -- Счетчик задержки (таймер) для удержания линии тактов в состоянии RTS
+signal c_next : unsigned(12 downto 0); --
 signal par : std_logic;
 signal fall_edge : std_logic; -- Импульс, фиксирующий спадающий фронт линии тактов мыши
 signal ps2c_out : std_logic;
@@ -49,7 +52,7 @@ begin
 
 	process(clk, reset)
 	begin
-		if reset = '0' then
+		if reset = '1' then
 			filter_reg <= (others => '0');
 			f_ps2c_reg <= '0';
 		elsif rising_edge(clk) then
@@ -62,11 +65,12 @@ filter_next <= ps2c & filter_reg(7 downto 1);
 f_ps2c_next <= '1' when filter_reg = "11111111" else
 					'0' when filter_reg = "00000000" else
 					f_ps2c_reg;
+					
 fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 
 	process(clk, reset)
 	begin
-		if reset = '0' then
+		if reset = '1' then
 			state_reg <= idle;
 			c_reg <= (others => '0');
 			n_reg <= (others => '0');
@@ -80,15 +84,15 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 	end process;
 	
 	
-	-- Генерация бита четности (Odd Parity). 
+	-- Генерация бита нечетного паритета (Odd Parity). 
 	-- Согласно стандарту PS/2, общее число единиц в байте данных и бите паритета должно быть нечетным.
-par <= not(din(0) xor din(1) xor din(2) xor din(3) xor din(4) xor din(5) xor din(6) xor din(7));
+par <= not(din(7) xor din(6) xor din(5) xor din(4) xor din(3) xor din(2) xor din(1) xor din(0));
 
 
 ------------------------------------------------------------------
 	-- КОНЕЧНЫЙ АВТОМАТ УПРАВЛЕНИЯ ПЕРЕДАЧЕЙ (FSM)
 ------------------------------------------------------------------
-	process(all)
+	process(state_reg, n_reg, b_reg, c_reg, wr_ps2, din, par, fall_edge)
 	begin
 		state_next <= state_reg;
 		c_next <= c_reg;
@@ -106,21 +110,19 @@ par <= not(din(0) xor din(1) xor din(2) xor din(3) xor din(4) xor din(5) xor din
 						tx_idle <= '1';
 						if wr_ps2 = '1' then
 							b_next <= par & din(7 downto 0);
-							c_next <= "1111111111111";
+							c_next <= (others => '1');
 							state_next <= rts;
 						end if;
 					
-					when rts =>
+					when rts => -- request to send (запрос на отправку)
 						ps2c_out <= '0';
 						tri_c <= '1';
---						if fall_edge = '1' then
-							c_next <= std_logic_vector(unsigned(c_reg) - 1);
-							if c_reg = "0000000000000" then
+						c_next <= c_reg - 1;
+							if c_reg = 0 then
 								state_next <= start;
 							end if;
---						end if;
 						
-					when start =>
+					when start => --  assert start bit (установить стартовый бит)
 						ps2d_out <= '0';
 						tri_d <= '1';
 							if fall_edge = '1' then
@@ -128,34 +130,49 @@ par <= not(din(0) xor din(1) xor din(2) xor din(3) xor din(4) xor din(5) xor din
 								state_next <= data;
 							end if;
 							
-					when data =>
+					when data => -- 8 данных + 1 бит четноти 
 						ps2d_out <= b_reg(0);
 						tri_d <= '1';
 						if fall_edge = '1' then
 							b_next <= '0' & b_reg(8 downto 1);
-							if n_reg = "0000" then
+							if n_reg = 0 then
 								state_next <= stop;
 							else
-								n_next <= std_logic_vector((unsigned(n_reg)) - 1);
+								n_next <= n_reg - 1;
 							end if;
 						end if;
 						
 						
-					when stop =>
+					when stop => -- установк высокого уровнядля ps2d
 						if fall_edge = '1' then
 							state_next <= idle;
 							tx_done_tick <= '1';
 						end if;
 						
-					when others =>
-						state_next <= idle;
+						
 				
 				end case;
 					
 	end process;
 	
-ps2c <= ps2c_out when tri_c = '1' else 'Z';
-ps2d <= ps2d_out when tri_d = '1' else 'Z';
-
 	
+i_alt_iobuf_ps2d : alt_iobuf
+port map(
+	i => ps2d_out,
+	oe => tri_d,
+	io => ps2d,
+	o => open
+	);
+
+i_alt_iobuf_ps2c : alt_iobuf
+port map(
+	i => ps2c_out,
+	oe => tri_c,
+	io => ps2c,
+	o => open
+	);
+	
+--ps2c <= ps2c_out when tri_c = '1' else 'Z';
+--ps2d <= ps2d_out when tri_d = '1' else 'Z';
+
 end architecture;

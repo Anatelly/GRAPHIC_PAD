@@ -5,7 +5,7 @@ entity PS_2_rxtx is
 	port(
 		clk : in std_logic;
 		reset : in std_logic;
-		wr_ps2 : in std_logic;
+		wr_ps2 :  std_logic;
 		ps2d : inout std_logic;
 		ps2c : inout std_logic;
 		din : in std_logic_vector(7 downto 0);

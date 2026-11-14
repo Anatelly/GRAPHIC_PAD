@@ -1,0 +1,83 @@
+<session jtag_chain="USB-Blaster [USB-0]" jtag_device="@1: 10CL120(Y|Z)/EP3C120/.. (0x020F70DD)" sof_file="C:/Users/Anatelly/Documents/FPGA_PROJECT/GRAPHIC_PAD/quartus/graphic_pad.sof">
+  <display_attributes is_max_probe_read_interval="0" is_write_immediate="0" probe_read_interval="1" probe_read_interval_units="ms"/>
+  <instance enable_logging="true" entity_name="NONE" is_auto_node="true" name="manager2:inst7|altsource_probe_top:in_system_sources_probes_0|altsource_probe:issp_impl">
+    <node_ip_info instance_id="0" mfg_id="110" node_id="9" version="0"/>
+    <sources>
+      <source name="source[0]" value="true"/>
+    </sources>
+    <probes/>
+    <view>
+      <view_node expanded="true" index="0" node_type="source" view_type="independent"/>
+    </view>
+    <log data="" max_size="8" size="0" time="" width="1"/>
+  </instance>
+  <instance enable_logging="true" entity_name="NONE" is_auto_node="true" name="manager1:inst5|altsource_probe_top:in_system_sources_probes_0|altsource_probe:issp_impl">
+    <node_ip_info instance_id="1" mfg_id="110" node_id="9" version="0"/>
+    <sources>
+      <source name="source[0]" value="false"/>
+      <source name="source[1]" value="false"/>
+      <source name="source[2]" value="false"/>
+    </sources>
+    <probes/>
+    <view>
+      <view_node expanded="true" index="2" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="1" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="0" node_type="source" view_type="independent"/>
+    </view>
+    <log data="" max_size="8" size="0" time="" width="3"/>
+  </instance>
+  <instance enable_logging="true" entity_name="NONE" is_auto_node="true" name="manager:inst10|altsource_probe_top:in_system_sources_probes_0|altsource_probe:issp_impl">
+    <node_ip_info instance_id="2" mfg_id="110" node_id="9" version="0"/>
+    <sources>
+      <source name="source[0]" value="false"/>
+      <source name="source[1]" value="false"/>
+      <source name="source[2]" value="false"/>
+      <source name="source[3]" value="false"/>
+      <source name="source[4]" value="true"/>
+      <source name="source[5]" value="true"/>
+      <source name="source[6]" value="true"/>
+      <source name="source[7]" value="true"/>
+      <source name="source[8]" value="false"/>
+    </sources>
+    <probes/>
+    <view>
+      <view_node expanded="true" index="8" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="7" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="6" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="5" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="4" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="3" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="2" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="1" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="0" node_type="source" view_type="independent"/>
+    </view>
+    <log data="" max_size="8" size="0" time="" width="9"/>
+  </instance>
+  <instance enable_logging="true" entity_name="NONE" is_auto_node="true" name="manager:inst11|altsource_probe_top:in_system_sources_probes_0|altsource_probe:issp_impl">
+    <node_ip_info instance_id="3" mfg_id="110" node_id="9" version="0"/>
+    <sources>
+      <source name="source[0]" value="false"/>
+      <source name="source[1]" value="false"/>
+      <source name="source[2]" value="false"/>
+      <source name="source[3]" value="false"/>
+      <source name="source[4]" value="true"/>
+      <source name="source[5]" value="true"/>
+      <source name="source[6]" value="true"/>
+      <source name="source[7]" value="true"/>
+      <source name="source[8]" value="false"/>
+    </sources>
+    <probes/>
+    <view>
+      <view_node expanded="true" index="8" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="7" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="6" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="5" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="4" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="3" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="2" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="1" node_type="source" view_type="independent"/>
+      <view_node expanded="true" index="0" node_type="source" view_type="independent"/>
+    </view>
+    <log data="" max_size="8" size="0" time="" width="9"/>
+  </instance>
+</session>

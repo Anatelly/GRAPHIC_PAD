@@ -38,9 +38,10 @@ signal fall_edge : std_logic;
 
 begin
 
+
 	process(clk, reset)
 	begin
-		if reset = '0' then
+		if reset = '1' then
 			filter_reg <= (others => '0');
 			f_ps2c_reg <= '0';
 		elsif rising_edge(clk) then
@@ -57,7 +58,7 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 
 	process(clk, reset)
 	begin
-		if reset = '0' then
+		if reset = '1' then
 			state_reg <= idle;
 			n_reg <= (others => '0');
 			b_reg <= (others => '0');
@@ -100,7 +101,6 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 					when load =>
 							state_next <= idle;
 							rx_done_tick <= '1';
-						
 					when others =>
 						state_next <= idle;
 				

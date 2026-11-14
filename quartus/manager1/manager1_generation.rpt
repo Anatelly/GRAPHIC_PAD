@@ -1,0 +1,28 @@
+Info: Starting: Create block symbol file (.bsf)
+Info: qsys-generate C:\Users\Anatelly\Documents\FPGA_PROJECT\GRAPHIC_PAD\quartus\manager1.qsys --block-symbol-file --output-directory=C:\Users\Anatelly\Documents\FPGA_PROJECT\GRAPHIC_PAD\quartus\manager1 --family="Cyclone IV E" --part=EP4CE115F29C7
+Progress: Loading quartus/manager1.qsys
+Progress: Reading input file
+Progress: Adding in_system_sources_probes_0 [altera_in_system_sources_probes 18.1]
+Progress: Parameterizing module in_system_sources_probes_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: qsys-generate succeeded.
+Info: Finished: Create block symbol file (.bsf)
+Info: 
+Info: Starting: Create HDL design files for synthesis
+Info: qsys-generate C:\Users\Anatelly\Documents\FPGA_PROJECT\GRAPHIC_PAD\quartus\manager1.qsys --synthesis=VHDL --output-directory=C:\Users\Anatelly\Documents\FPGA_PROJECT\GRAPHIC_PAD\quartus\manager1\synthesis --family="Cyclone IV E" --part=EP4CE115F29C7
+Progress: Loading quartus/manager1.qsys
+Progress: Reading input file
+Progress: Adding in_system_sources_probes_0 [altera_in_system_sources_probes 18.1]
+Progress: Parameterizing module in_system_sources_probes_0
+Progress: Building connections
+Progress: Parameterizing connections
+Progress: Validating
+Progress: Done reading input file
+Info: manager1: Generating manager1 "manager1" for QUARTUS_SYNTH
+Info: in_system_sources_probes_0: "manager1" instantiated altera_in_system_sources_probes "in_system_sources_probes_0"
+Info: manager1: Done "manager1" with 2 modules, 2 files
+Info: qsys-generate succeeded.
+Info: Finished: Create HDL design files for synthesis

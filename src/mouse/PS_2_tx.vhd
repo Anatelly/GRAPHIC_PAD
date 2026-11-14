@@ -48,14 +48,11 @@ signal ps2d_out : std_logic;
 signal tri_c : std_logic;
 signal tri_d : std_logic;
 
-signal ps2c_in : std_logic;
-signal ps2d_in : std_logic;
-
 begin
 
 	process(clk, reset)
 	begin
-		if reset = '0' then
+		if reset = '1' then
 			filter_reg <= (others => '0');
 			f_ps2c_reg <= '0';
 		elsif rising_edge(clk) then
@@ -73,7 +70,7 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 
 	process(clk, reset)
 	begin
-		if reset = '0' then
+		if reset = '1' then
 			state_reg <= idle;
 			c_reg <= (others => '0');
 			n_reg <= (others => '0');
@@ -152,30 +149,30 @@ par <= not(din(7) xor din(6) xor din(5) xor din(4) xor din(3) xor din(2) xor din
 							tx_done_tick <= '1';
 						end if;
 						
+						
 				
 				end case;
 					
 	end process;
 	
 	
---i_alt_iobuf_ps2d : alt_iobuf
---port map(
---	i => ps2c_out,
---	oe => tri_d,
---	io => ps2d,
---	o => ps2d_in
---	);
---
---i_alt_iobuf_ps2c : alt_iobuf
---port map(
---	i => ps2d_out,
---	oe => tri_c,
---	io => ps2c,
---	o => ps2c_in
---	);
-	
-ps2c <= ps2c_out when tri_c = '1' else 'Z';
-ps2d <= ps2d_out when tri_d = '1' else 'Z';
+i_alt_iobuf_ps2d : alt_iobuf
+port map(
+	i => ps2d_out,
+	oe => tri_d,
+	io => ps2d,
+	o => open
+	);
 
+i_alt_iobuf_ps2c : alt_iobuf
+port map(
+	i => ps2c_out,
+	oe => tri_c,
+	io => ps2c,
+	o => open
+	);
 	
+--ps2c <= ps2c_out when tri_c = '1' else 'Z';
+--ps2d <= ps2d_out when tri_d = '1' else 'Z';
+
 end architecture;

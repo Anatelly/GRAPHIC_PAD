@@ -17,9 +17,9 @@ end entity;
 
 architecture arch of mouse is
 
---constant MOUSE_RESET   : std_logic_vector(7 downto 0) := "11111111";
-constant MOUSE_ENABLE  : std_logic_vector(7 downto 0) := "11110100";
---constant MOUSE_ACK    : std_logic_vector(7 downto 0) := "11111010";
+--constant MOUSE_RESET : std_logic_vector(7 downto 0) := "11111111";
+constant MOUSE_ENABLE : std_logic_vector(7 downto 0) := "11110100";
+constant MOUSE_ACK : std_logic_vector(7 downto 0) := "11111010";
 
 type state_type is (init1, init2, init3, pack1, pack2, pack3, done);
 signal state_reg, state_next : state_type;
@@ -34,11 +34,10 @@ signal x_next : std_logic_vector(8 downto 0);
 signal y_next : std_logic_vector(8 downto 0);
 signal btn_reg : std_logic_vector(2 downto 0);
 signal btn_next : std_logic_vector(2 downto 0);
-
-signal x_out_reg : std_logic_vector(8 downto 0);
-signal y_out_reg : std_logic_vector(8 downto 0);
-signal btn_out_reg : std_logic_vector(2 downto 0);
-signal strobe_reg : std_logic;
+signal overflow_x_next : std_logic;
+signal overflow_y_next : std_logic;
+signal overflow_x_reg : std_logic;
+signal overflow_y_reg : std_logic;
 
 begin
 
@@ -65,27 +64,20 @@ ps2_unit : entity work.PS_2_rxtx
 
 	process(clk, reset)
 	begin
-		if reset = '0' then
+		if reset = '1' then
 			state_reg <= init1;
 			x_reg <= (others => '0');
 			y_reg <= (others => '0');
 			btn_reg <= (others => '0');
-			x_out_reg <= (others => '0');
-			y_out_reg <= (others => '0');
-			btn_out_reg <= (others => '0');
-			strobe_reg <= '0';
+			overflow_x_reg <= '0';
+			overflow_y_reg <= '0';
 		elsif rising_edge(clk) then
 			state_reg <= state_next;
 			x_reg <= x_next;
 			y_reg <= y_next;
 			btn_reg <= btn_next;
-			strobe_reg <= '0';
-				if state_reg = done and (btn_next(0) = '1' or btn_next(1) = '1') then
-					x_out_reg <= x_reg; -- Передача смещения X
-					y_out_reg <= y_reg; -- Передача смещения Y
-					btn_out_reg <= btn_next;
-					strobe_reg <= '1';
-				end if;
+			overflow_x_reg <= overflow_x_next;
+			overflow_y_reg <= overflow_y_next;
 		end if;
 	end process;
 
@@ -93,14 +85,17 @@ ps2_unit : entity work.PS_2_rxtx
     -- Регистры состояний и данных FSMD (Синхронный блок)
 -----------------------------------------------------------------
 	
-	process(state_reg, rx_done_tick, tx_done_tick, x_reg, y_reg, btn_reg, rx_data)
+	process(state_reg, rx_done_tick, tx_done_tick, x_reg, y_reg, btn_reg, rx_data, overflow_x_reg, overflow_y_reg)
 	begin
 	-- Назначения по умолчанию для предотвращения генерации защелок
-		wr_ps2 <= '0';
+		state_next <= state_reg;
       x_next <= x_reg;
       y_next <= y_reg;
       btn_next <= btn_reg;
-		state_next <= state_reg;
+		overflow_x_reg <= overflow_x_next;
+		overflow_y_reg <= overflow_y_next;
+		wr_ps2 <= '0';
+		data_update <= '0';
 		
 			case state_reg is
 				when init1 =>
@@ -114,30 +109,45 @@ ps2_unit : entity work.PS_2_rxtx
 
 				when init3 => -- Ожидание пакета подтверждения (ACK)
 					if rx_done_tick = '1' then
-						state_next <= pack1;
+						if rx_data = MOUSE_ACK then
+							state_next <= pack1;
+						end if;
 					end if;
 
 				when pack1 => -- Ожидание 1-го пакета данных (флаги, знаковые биты, кнопки)
 					if rx_done_tick = '1' then
-						state_next <= pack2;
-						y_next(8) <= rx_data(5); -- Знаковый бит Y
-						x_next(8) <= rx_data(4); -- Знаковый бит X
-						btn_next <= rx_data(2 downto 0); -- Кнопки: Средняя, Правая, Левая
+						if rx_data(3) = '1' then
+							btn_next <= rx_data(2 downto 0); -- Кнопки: Средняя, Правая, Левая
+							x_next(8) <= rx_data(4); -- Знаковый бит X
+							y_next(8) <= rx_data(5); -- Знаковый бит Y
+							overflow_x_next <= rx_data(6); -- Переполнение X
+							overflow_y_next <= rx_data(7); -- Переполнение Y
+							state_next <= pack2;
+						end if;
 					end if;
 
 				when pack2 => -- Ожидание 2-го пакета данных (смещение по X)
 					if rx_done_tick = '1' then
+						if overflow_x_next = '1' then
+							x_next(7 downto 0) <= (others => '1');
+						else
+							x_next(7 downto 0) <= rx_data;	
+						end if;
 						state_next <= pack3;
-						x_next(7 downto 0) <= rx_data;
 				end if;
 
 				when pack3 => -- Ожидание 3-го пакета данных (смещение по Y)
 					if rx_done_tick = '1' then
+						if overflow_y_next = '1' then
+							y_next(7 downto 0) <= (others => '1');
+						else
+							y_next(7 downto 0) <= rx_data;
+						end if;
 						state_next <= done;
-						y_next(7 downto 0) <= rx_data;
 					end if;
 					
 				when done =>
+					data_update <= '1';
 					state_next <= pack1;
 
 					
@@ -148,9 +158,8 @@ ps2_unit : entity work.PS_2_rxtx
     -- Назначение выходных сигналов
 -----------------------------------------------------------------
 	
-xm <= x_out_reg;
-ym <= y_out_reg;
-btnm <= btn_out_reg;
-data_update <= strobe_reg;
+xm <= x_reg;
+ym <= y_reg;
+btnm <= btn_reg;
 
 end architecture;

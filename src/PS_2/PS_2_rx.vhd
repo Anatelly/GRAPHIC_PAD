@@ -24,31 +24,17 @@ architecture rtl of PS_2_rx is
 -- load : завершение приема и выдача готового байта в систему
 
 type state_type is (idle, dps, load);
-signal state_reg, state_next : state_type;
+signal state_reg : state_type;
 
 signal filter_reg : std_logic_vector(7 downto 0);
 signal filter_next : std_logic_vector(7 downto 0);
 signal f_ps2c_reg : std_logic;
 signal f_ps2c_next : std_logic;
 signal n_reg : unsigned(3 downto 0);
-signal n_next : unsigned(3 downto 0);
 signal b_reg : std_logic_vector(10 downto 0);
-signal b_next : std_logic_vector(10 downto 0);
 signal fall_edge : std_logic;
 
 begin
-
-
-	process(clk, reset)
-	begin
-		if reset = '1' then
-			filter_reg <= (others => '0');
-			f_ps2c_reg <= '0';
-		elsif rising_edge(clk) then
-			filter_reg <= filter_next;
-			f_ps2c_reg <= f_ps2c_next;
-		end if;
-	end process;
 	
 filter_next <= ps2c & filter_reg(7 downto 1);
 f_ps2c_next <= '1' when filter_reg = "11111111" else
@@ -56,57 +42,56 @@ f_ps2c_next <= '1' when filter_reg = "11111111" else
 					f_ps2c_reg;
 fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 
-	process(clk, reset)
-	begin
-		if reset = '1' then
-			state_reg <= idle;
-			n_reg <= (others => '0');
-			b_reg <= (others => '0');
-		elsif rising_edge(clk) then
-			state_reg <= state_next;
-			n_reg <= n_next;
-			b_reg <= b_next;
-		end if;
-	end process;
-
 ------------------------------------------------------------------
 	-- КОНЕЧНЫЙ АВТОМАТ ПРИЕМА КАДРА PS/2 (FSM)
 ------------------------------------------------------------------
 	
-	process(state_reg, n_reg, b_reg, fall_edge, rx_en, ps2d)
-	begin
-		rx_done_tick <= '0';
-		state_next <= state_reg;
-      n_next <= n_reg;
-      b_next <= b_reg;
-		
-				case state_reg is
-					when idle =>
-						if fall_edge = '1' and rx_en = '1' then
-							b_next <= ps2d & b_reg(10 downto 1);
-							n_next <= "1001";
-							state_next <= dps;
-						end if;
-					
-					when dps => -- 8 битов данных, 1 бит четности, 1 стоповый бит
-						if fall_edge = '1' then
-							b_next <= ps2d & b_reg(10 downto 1);
-							if n_reg = 0 then
-								state_next <= load;
-							else
-								n_next <= n_reg - 1;
-							end if;
-						end if;
-						
-					when load =>
-							state_next <= idle;
-							rx_done_tick <= '1';
-					when others =>
-						state_next <= idle;
+	process(clk, reset)
+    begin
+        if reset = '1' then
+            state_reg <= idle;
+            filter_reg <= (others => '0');
+            f_ps2c_reg <= '0';
+            n_reg <= (others => '0');
+            b_reg <= (others => '0');
+            rx_done_tick <= '0';
+        elsif rising_edge(clk) then
+            -- Фильтр тактовой линии PS/2
+            filter_reg <= ps2c & filter_reg(7 downto 1);
+            f_ps2c_reg <= f_ps2c_next;
+            -- Значение по умолчанию: импульс длится один такт
+            rx_done_tick <= '0';
 				
-				end case;
-					
-	end process;
+            case state_reg is
+				
+                when idle =>
+                    if fall_edge = '1' and rx_en = '1' then
+                        b_reg <= ps2d & b_reg(10 downto 1);
+                        n_reg <= "1001";
+                        state_reg <= dps;
+                    end if;
+
+                when dps => -- 8 битов данных, 1 бит четности, 1 стоповый бит
+                    if fall_edge = '1' then
+                        b_reg <= ps2d & b_reg(10 downto 1);
+
+                        if n_reg = 0 then
+                            state_reg <= load;
+                        else
+                            n_reg <= n_reg - 1;
+                        end if;
+                    end if;
+
+                when load =>
+                    state_reg <= idle;
+                    rx_done_tick <= '1';
+
+                when others =>
+                    state_reg <= idle;
+
+            end case;
+        end if;
+    end process;
 	
 dout <= b_reg(8 downto 1); -- 8 битов данных
 	

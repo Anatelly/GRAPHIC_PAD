@@ -34,11 +34,8 @@ signal btn_reg : std_logic_vector(2 downto 0);
 signal overflow_x_reg : std_logic;
 signal overflow_y_reg : std_logic;
 signal data_update_reg : std_logic;
-signal reset_i : std_logic;
-
 begin
 
-reset_i <= not reset;
  -----------------------------------------------------------------
     -- Инициализация ps2_rxtx
  -----------------------------------------------------------------
@@ -46,7 +43,7 @@ reset_i <= not reset;
 ps2_unit : entity work.PS_2_rxtx
 	port map (
 		clk => clk,
-		reset => reset_i,
+		reset => reset,
 		wr_ps2 => wr_ps2,
 		din => MOUSE_ENABLE,
 		ps2d => ps2d,
@@ -61,9 +58,9 @@ ps2_unit : entity work.PS_2_rxtx
     -- Регистры состояний и данных FSMD (Синхронный блок)
 -----------------------------------------------------------------
 	
-	mouse_proc : process(clk, reset_i)
+	mouse_proc : process(clk, reset)
 	begin
-		if reset_i = '1' then
+		if reset = '0' then
 				state_reg <= init1;
 				x_reg <= (others => '0');
 				y_reg <= (others => '0');
@@ -135,15 +132,12 @@ ps2_unit : entity work.PS_2_rxtx
 			end case;
 			
 		end if;
+	-- Назначение выходных сигналов
+	xm <= x_reg;
+	ym <= y_reg;
+	btnm <= btn_reg;
+	data_update <= data_update_reg;
 	end process mouse_proc;
 
------------------------------------------------------------------
-    -- Назначение выходных сигналов
------------------------------------------------------------------
-	
-xm <= x_reg;
-ym <= y_reg;
-btnm <= btn_reg;
-data_update <= data_update_reg;
 
 end architecture;

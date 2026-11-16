@@ -48,7 +48,7 @@ fall_edge <= f_ps2c_reg and (not f_ps2c_next);
 	
 	process(clk, reset)
     begin
-        if reset = '1' then
+        if reset = '0' then
             state_reg <= idle;
             filter_reg <= (others => '0');
             f_ps2c_reg <= '0';

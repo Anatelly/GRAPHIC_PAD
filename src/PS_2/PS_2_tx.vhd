@@ -64,7 +64,7 @@ par <= not(din(7) xor din(6) xor din(5) xor din(4) xor din(3) xor din(2) xor din
 ------------------------------------------------------------------
 	sm_tx : process(clk, reset)
 		begin
-			if reset = '1' then
+			if reset = '0' then
 				state_reg <= idle;
 				filter_reg <= (others => '0');
 				f_ps2c_reg <= '0';
